@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/appBackground">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        style="@style/StandardPadding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context="com.android.shouldiwalk.activities.MainActivity">
+
+        <!-- Upper notification box -->
+        <TableLayout
+            android:id="@+id/firstTimeWelcomeTableLayout"
+            style="@style/StandardPadding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:stretchColumns="*"
+            android:visibility="gone">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/firstTimeWelcomeTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_span="2"
+                    android:fontFamily="serif"
+                    android:text="@string/firstTimeWelcomeText"
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/learnMoreFirstTimeWelcomeButton"
+                    android:layout_margin="10dp"
+                    android:background="@android:drawable/screen_background_light_transparent"
+                    android:text="@string/learnMoreFirstTimeWelcomeButtonText" />
+
+                <Button
+                    android:id="@+id/dismissFirstTimeWelcomeButton"
+                    android:layout_margin="10dp"
+                    android:background="@android:drawable/screen_background_light_transparent"
+                    android:text="@string/dismissFirstTimeWelcomeButtonText" />
+            </TableRow>
+        </TableLayout>
+
+        <LinearLayout
+            android:id="@+id/cardsListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/firstTimeWelcomeTableLayout"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical" />
+    </RelativeLayout>
+</ScrollView>

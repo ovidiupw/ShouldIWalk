@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card"
+    style="@style/StandardPadding"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/card_shape"
+    android:elevation="@dimen/cardElevation"
+    android:orientation="vertical"
+    android:outlineProvider="bounds">
+
+    <LinearLayout
+        android:id="@+id/firstPredictionCardHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="0dp">
+
+        <LinearLayout
+            android:id="@+id/firstPredictionCardHeaderTitleArea"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/firstPredictionCardTitle"
+                style="@style/cardTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="Progress to first prediction"
+                />
+
+            <TextView
+                android:id="@+id/firstPredictionCardSubtitle"
+                style="@style/cardSubtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="5dp"
+                android:text="Here is your progress" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/firstPredictionCardMenuButton"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/ic_more_vert_black"
+            android:contentDescription="@string/firstPredictionCardMenuButtonDescription" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/lineSeparator1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/firstPredictionCardHeader"
+        android:background="@color/horizontalSeparatorColor"/>
+
+    <ProgressBar
+        android:id="@+id/firstPredictionProgressBar"
+        style="?android:progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@id/lineSeparator1"
+        android:layout_marginTop="20dp"
+        android:max="10"
+        android:progress="0"
+        android:progressTint="@color/colorPrimaryDark"
+        android:scaleY="8" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/firstPredictionProgressBar"
+        android:layout_marginTop="20dp"
+        android:text="@string/firstPredictionAddEventButton" />
+
+
+</RelativeLayout>

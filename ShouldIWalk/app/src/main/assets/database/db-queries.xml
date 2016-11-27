@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<statements>
+
+    <!-- Test related statements -->
+
+    <statement category="test">
+        <query name="dummy_select">
+            [dummy] select 1 from dual
+        </query>
+    </statement>
+
+    <statement category="test">
+        <query name="dummy_create_account">
+            [dummy] {? = call pl_records_insert.create_account(?, ?, ?)}
+        </query>
+    </statement>
+
+
+    <!-- Create related statements -->
+    <statement category="create">
+        <query name="create_user_data_table">
+            create table if not exists UserData (
+                id integer primary key autoincrement,
+                name text,
+                last_login_millis integer not null,
+                first_time_info_dismissed integer default 0
+            )
+        </query>
+    </statement>
+
+    <statement category="create">
+        <query name="create_locations_table">
+            create table if not exists Locations (
+            id integer primary key autoincrement,
+            latitude real not null,
+            longitude real not null
+            )
+        </query>
+    </statement>
+
+    <statement category="create">
+        <query name="create_locations_table_coordinates_index">
+            create index if not exists coordinates_index
+            on Locations(latitude, longitude)
+        </query>
+    </statement>
+
+    <statement category="create">
+        <query name="create_trip_data_table">
+            create table if not exists TripData (
+            id integer primary key autoincrement,
+            start_location_id integer not null,
+            end_location_id integer not null,
+            start_millis integer not null,
+            end_millis integer not null,
+            weather_status integer not null,
+            temperature_celsius integer not null,
+            traffic_level integer not null,
+            trip_difficulty integer,
+            time_estimation integer,
+            rush_level integer not null,
+            mean_of_transport integer not null,
+            satisfaction_level integer not null,
+
+            foreign key(start_location_id) references Locations(id),
+            foreign key(end_location_id) references Locations(id)
+            )
+        </query>
+    </statement>
+
+
+    <statement category="create">
+        <query name="create_user_data_item">
+            insert into UserData(name, last_login_millis)
+            values (?, ?)
+
+        </query>
+    </statement>
+
+    <!-- Remove related statements -->
+
+    <statement category="remove">
+        <query name="delete_user_data_table">
+            drop table if exists UserData
+        </query>
+    </statement>
+
+
+    <!-- Display related statements -->
+
+    <statement category="display">
+        <query name="fetch_user_data">
+            select id, name, last_login_millis, first_time_info_dismissed from UserData
+        </query>
+    </statement>
+
+    <statement category="display">
+        <query name="get_trip_data_item_count">
+            select count(id) from TripData
+        </query>
+    </statement>
+
+    <!-- Update related statements -->
+
+    <statement category="update">
+        <query name="update_user_data">
+            update UserData
+            set name = ?, last_login_millis = ?, first_time_info_dismissed = ?
+            where id = ?
+        </query>
+    </statement>
+
+</statements>
