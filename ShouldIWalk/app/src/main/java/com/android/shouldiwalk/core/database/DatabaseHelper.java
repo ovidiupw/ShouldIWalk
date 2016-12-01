@@ -30,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CLASS_TAG = DatabaseHelper.class.getCanonicalName() + "-TAG";
     private static final String DATABASE_IDENTIFIER = "ShouldIWalkDatabase";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 6;
     private final Context context;
 
     public DatabaseHelper(Context context, String databaseName, int version) throws IOException {

@@ -20,10 +20,10 @@
     <statement category="create">
         <query name="create_user_data_table">
             create table if not exists UserData (
-                id integer primary key autoincrement,
-                name text,
-                last_login_millis integer not null,
-                first_time_info_dismissed integer default 0
+            id integer primary key autoincrement,
+            name text,
+            last_login_millis integer not null,
+            first_time_info_dismissed integer default 0
             )
         </query>
     </statement>
@@ -34,6 +34,17 @@
             id integer primary key autoincrement,
             latitude real not null,
             longitude real not null
+            )
+        </query>
+    </statement>
+
+    <statement category="create">
+        <query name="create_location_item">
+            insert into Locations (
+            latitude ,
+            longitude
+            ) values (
+            ?,?
             )
         </query>
     </statement>
@@ -53,17 +64,36 @@
             end_location_id integer not null,
             start_millis integer not null,
             end_millis integer not null,
-            weather_status integer not null,
+            weather_status text not null,
             temperature_celsius integer not null,
             traffic_level integer not null,
             trip_difficulty integer,
-            time_estimation integer,
             rush_level integer not null,
-            mean_of_transport integer not null,
+            mean_of_transport text not null,
             satisfaction_level integer not null,
 
             foreign key(start_location_id) references Locations(id),
             foreign key(end_location_id) references Locations(id)
+            )
+        </query>
+    </statement>
+
+    <statement category="create">
+        <query name="create_trip_data_item">
+            insert into TripData(
+            start_location_id,
+            end_location_id,
+            start_millis,
+            end_millis,
+            weather_status,
+            temperature_celsius,
+            traffic_level,
+            trip_difficulty,
+            rush_level,
+            mean_of_transport,
+            satisfaction_level
+            ) values (
+            ?,?,?,?,?,?,?,?,?,?,?
             )
         </query>
     </statement>
@@ -106,6 +136,16 @@
         <query name="update_user_data">
             update UserData
             set name = ?, last_login_millis = ?, first_time_info_dismissed = ?
+            where id = ?
+        </query>
+    </statement>
+
+    <statement category="update">
+        <query name="update_location_item">
+            update Locations
+            set
+            latitude = ?,
+            longitude = ?
             where id = ?
         </query>
     </statement>

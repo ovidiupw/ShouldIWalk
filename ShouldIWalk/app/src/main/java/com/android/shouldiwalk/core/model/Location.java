@@ -1,15 +1,35 @@
 package com.android.shouldiwalk.core.model;
 
+import com.android.shouldiwalk.core.annotations.SQLiteTable;
+
 import java.util.Objects;
 
+@SQLiteTable(name = "Locations")
 public class Location {
     private int id;
     private double latitude;
     private double longitude;
 
+    public static String getIdDBIdentifier() {
+        return "id";
+    }
+
+    public static String getLatitudeDBIdentifier() {
+        return "latitude";
+    }
+
+    public static String getLongitudeDBIdentifier() {
+        return "longitude";
+    }
+
     public Location(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public Location(int id, double latitude, double longitude) {
+        this(latitude, longitude);
+        this.id = id;
     }
 
     public int getId() {

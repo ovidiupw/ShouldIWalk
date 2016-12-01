@@ -1,5 +1,6 @@
 package com.android.shouldiwalk.core.database;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 
 import com.android.shouldiwalk.R;
@@ -47,6 +48,14 @@ public final class SqlStatements {
         if (!file.exists()) {
             throw new FileNotFoundException("The file at location '" + fileLocation + "' was not found.");
         }
+    }
+
+    public static Map<String, SqlQuery> getAllQueriesFromCategory(
+            SqlQuery.Type queryCategoryType, Context context)
+            throws ParserConfigurationException, BadXMLFormatException, SAXException, IOException {
+
+        InputStream queriesStream = DatabaseHelper.getDatabaseQueriesStream(context);
+        return getAllQueriesFromCategory(queryCategoryType, queriesStream);
     }
 
     /**

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -18,6 +17,7 @@ import android.widget.Toast;
 import com.android.shouldiwalk.R;
 import com.android.shouldiwalk.core.database.DatabaseHelper;
 import com.android.shouldiwalk.core.database.TripDataDBHelper;
+import com.android.shouldiwalk.core.database.TripDataSqliteHelper;
 import com.android.shouldiwalk.core.exceptions.DatabaseCommFailure;
 import com.android.shouldiwalk.core.model.UserData;
 import com.android.shouldiwalk.utils.ErrorUtils;
@@ -49,13 +49,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeCards() {
-        int numberOfTripDataRecords = TripDataDBHelper.getNumberOfRecords(this, database);
+        TripDataDBHelper tripDataDBHelper = new TripDataSqliteHelper(this, database);
+        int numberOfTripDataRecords = tripDataDBHelper.countRecords();
         if (numberOfTripDataRecords <= 10) {
             int eventsStillNeededForPrediction = 10 - numberOfTripDataRecords;
             initializeProgressCard(0, eventsStillNeededForPrediction);
         }
 
-
+        // TODO initialize other cards also
     }
 
     private void initializeProgressCard(int topDownPositionInsideView, int eventsToAdd) {

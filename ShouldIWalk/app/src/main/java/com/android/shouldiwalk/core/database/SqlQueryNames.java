@@ -9,7 +9,10 @@ public enum SqlQueryNames {
     CreateLocationsTable("create_locations_table"),
     CreateLocationsTableCoordinatesIndex("create_locations_table_coordinates_index"),
     CreateTripDataTable("create_trip_data_table"),
-    GetTripDataItemCount("get_trip_data_item_count");
+    GetTripDataItemCount("get_trip_data_item_count"),
+    CreateTripData("create_trip_data_item"),
+    CreateLocation("create_location_item"),
+    UpdateLocation("update_location_item");
 
     private String name;
 
