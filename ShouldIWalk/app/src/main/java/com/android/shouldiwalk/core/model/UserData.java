@@ -28,65 +28,6 @@ public class UserData {
     private long lastLoginMillis;
     private int firstTimeInfoDismissed;
 
-    @Override
-    public String toString() {
-        return "UserData{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", lastLoginMillis=" + lastLoginMillis +
-                ", firstTimeInfoDismissed=" + firstTimeInfoDismissed +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserData userData = (UserData) o;
-        return id == userData.id &&
-                lastLoginMillis == userData.lastLoginMillis &&
-                firstTimeInfoDismissed == userData.firstTimeInfoDismissed &&
-                Objects.equals(name, userData.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, lastLoginMillis, firstTimeInfoDismissed);
-    }
-
-    public int getFirstTimeInfoDismissed() {
-
-        return firstTimeInfoDismissed;
-    }
-
-    public void setFirstTimeInfoDismissed(int firstTimeInfoDismissed) {
-        this.firstTimeInfoDismissed = firstTimeInfoDismissed;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public long getLastLoginMillis() {
-        return lastLoginMillis;
-    }
-
-    public void setLastLoginMillis(long lastLoginMillis) {
-        this.lastLoginMillis = lastLoginMillis;
-    }
-
     public static UserData loadFromDatabase(Context context, SQLiteDatabase database) {
         Map<String, SqlQuery> displayQueries;
         try {
@@ -153,5 +94,64 @@ public class UserData {
         } catch (Throwable e) {
             throw new DatabaseCommFailure(e);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "UserData{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastLoginMillis=" + lastLoginMillis +
+                ", firstTimeInfoDismissed=" + firstTimeInfoDismissed +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserData userData = (UserData) o;
+        return id == userData.id &&
+                lastLoginMillis == userData.lastLoginMillis &&
+                firstTimeInfoDismissed == userData.firstTimeInfoDismissed &&
+                Objects.equals(name, userData.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, lastLoginMillis, firstTimeInfoDismissed);
+    }
+
+    public int getFirstTimeInfoDismissed() {
+
+        return firstTimeInfoDismissed;
+    }
+
+    public void setFirstTimeInfoDismissed(int firstTimeInfoDismissed) {
+        this.firstTimeInfoDismissed = firstTimeInfoDismissed;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getLastLoginMillis() {
+        return lastLoginMillis;
+    }
+
+    public void setLastLoginMillis(long lastLoginMillis) {
+        this.lastLoginMillis = lastLoginMillis;
     }
 }

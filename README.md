@@ -31,3 +31,14 @@ Architecture:
 	- Needs access to localstorage database for caching data about user in order to be able to make subsequent predictions
 	- Should use popup notifications in the taskbar to request anonymous feedback from user about some trip
 
+
+TODO:
+- Add tests 
+- Implement a stack  used for going back inside record trip data activity (should have a maximum size; when size reached, oldest visited screens are eliminated to maintain constant size)
+- Finish gmaps location chooser
+- Add a backwards button in the Add Trip Record screen
+- Check for network connection when starting the app
+	- advise against non-networked use
+	- make sure application works as expected even with no network
+		- enter latitude and longitude manually instead of choosing point on google maps
+		- enter weather manually instead of being extracted directly from location + time combination

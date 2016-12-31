@@ -1,9 +1,12 @@
 package com.android.shouldiwalk.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +29,7 @@ import com.android.shouldiwalk.utils.ToastUtils;
 import java.io.IOException;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ShouldIWalkActivity {
 
     private static final String CLASS_TAG = MainActivity.class.getCanonicalName() + "-TAG";
 
@@ -40,26 +43,53 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initializeDatabase();
-        initializeDatabaseUserData();
+        loadUserDataFromDatabase();
         showFirstTimeInfoCardIfNeverDismissed();
         updateDatabaseUserData();
 
         initializeCards();
+    }
 
+    @VisibleForTesting
+    void initializeDatabase() {
+        try {
+            databaseHelper = new DatabaseHelper(
+                    this,
+                    DatabaseHelper.getDatabaseIdentifier(),
+                    DatabaseHelper.getDatabaseVersion()
+            );
+            database = databaseHelper.getWritableDatabase();
+        } catch (IOException e) {
+            ErrorUtils.logException(CLASS_TAG, e);
+            ToastUtils.showToast(this, Toast.LENGTH_LONG, e.getMessage());
+        }
+    }
+
+    private void loadUserDataFromDatabase() {
+        try {
+            userData = UserData.loadFromDatabase(this, database);
+        } catch (DatabaseCommFailure e) {
+            ErrorUtils.logException(CLASS_TAG, e);
+            ToastUtils.showToast(this, Toast.LENGTH_LONG, e.getMessage());
+        }
     }
 
     private void initializeCards() {
-        TripDataDBHelper tripDataDBHelper = new TripDataSqliteHelper(this, database);
-        int numberOfTripDataRecords = tripDataDBHelper.countRecords();
-        if (numberOfTripDataRecords <= 10) {
-            int eventsStillNeededForPrediction = 10 - numberOfTripDataRecords;
-            initializeProgressCard(0, eventsStillNeededForPrediction);
-        }
+        initializeProgressCard(0);
 
         // TODO initialize other cards also
     }
 
-    private void initializeProgressCard(int topDownPositionInsideView, int eventsToAdd) {
+    private void initializeProgressCard(int topDownPositionInsideView) {
+        TripDataDBHelper tripDataDBHelper = new TripDataSqliteHelper(this, database);
+
+        int numberOfTripDataRecords = tripDataDBHelper.countRecords();
+        int eventsToAdd = 0;
+
+        if (numberOfTripDataRecords < 10) {
+            eventsToAdd = 10 - numberOfTripDataRecords;
+        }
+
         LinearLayout cardsListView = (LinearLayout) findViewById(R.id.cardsListView);
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
         RelativeLayout progressCard
@@ -67,42 +97,27 @@ public class MainActivity extends AppCompatActivity {
 
         cardsListView.addView(progressCard, topDownPositionInsideView);
 
-        TextView cardTitle = (TextView) findViewById(R.id.firstPredictionCardTitle);
-        cardTitle.setText(R.string.firstPredictionCardTitle);
+        TextView cardTitle = (TextView) findViewById(R.id.progressToFirstPredictionCardTitle);
+        cardTitle.setText(R.string.progressToFirstPredictionCardTitle);
 
-        TextView cardSubtitle = (TextView) findViewById(R.id.firstPredictionCardSubtitle);
-        cardSubtitle.setText(getResources().getString(R.string.firstPredictionCardSubtitle, eventsToAdd));
-    }
+        TextView cardSubtitle = (TextView) findViewById(R.id.progressToFirstPredictionCardSubtitle);
+        if (eventsToAdd > 0) {
+            cardSubtitle.setText(getResources().getString(
+                    R.string.progressToFirstPredictionCardInProgressSubtitle, eventsToAdd));
+        } else {
+            cardSubtitle.setText(getResources().getString(
+                    R.string.progressToFirstPredictionCardDoneSubtitle));
+        }
 
-    private void updateDatabaseUserData() {
-        long currentTimeInMillis = new Date().getTime();
-        long lastLoginMillis = 0;
-
-        try {
-            if (userData == null) {
-                userData = new UserData();
-                userData.setLastLoginMillis(currentTimeInMillis);
-                userData.insertInDatabase(this, database);
-            } else {
-                lastLoginMillis = userData.getLastLoginMillis();
-                userData.setLastLoginMillis(currentTimeInMillis);
-                userData.updateDatabaseItem(this, database);
+        final MainActivity that = this;
+        Button recordTripDataButton = (Button) findViewById(R.id.firstPredictionProgressBarAddTripDataButton);
+        recordTripDataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addTripDataActivityIntent = new Intent(that, AddTripDataActivity.class);
+                startActivity(addTripDataActivityIntent);
             }
-        } catch (DatabaseCommFailure e) {
-            ErrorUtils.logException(CLASS_TAG, e);
-            ToastUtils.showToast(this, Toast.LENGTH_LONG, e.getMessage());
-        }
-
-        userData.setLastLoginMillis(lastLoginMillis);
-    }
-
-    private void initializeDatabaseUserData() {
-        try {
-            userData = UserData.loadFromDatabase(this, database);
-        } catch (DatabaseCommFailure e) {
-            ErrorUtils.logException(CLASS_TAG, e);
-            ToastUtils.showToast(this, Toast.LENGTH_LONG, e.getMessage());
-        }
+        });
     }
 
     private void showFirstTimeInfoCardIfNeverDismissed() {
@@ -136,20 +151,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @VisibleForTesting
-    void initializeDatabase() {
+    private void updateDatabaseUserData() {
+        long currentTimeInMillis = new Date().getTime();
+        long lastLoginMillis = 0;
+
         try {
-            databaseHelper = new DatabaseHelper(
-                    this,
-                    DatabaseHelper.getDatabaseIdentifier(),
-                    DatabaseHelper.getDatabaseVersion()
-            );
-            database = databaseHelper.getWritableDatabase();
-        } catch (IOException e) {
+            if (userData == null) {
+                userData = new UserData();
+                userData.setLastLoginMillis(currentTimeInMillis);
+                userData.insertInDatabase(this, database);
+            } else {
+                lastLoginMillis = userData.getLastLoginMillis();
+                userData.setLastLoginMillis(currentTimeInMillis);
+                userData.updateDatabaseItem(this, database);
+            }
+        } catch (DatabaseCommFailure e) {
             ErrorUtils.logException(CLASS_TAG, e);
             ToastUtils.showToast(this, Toast.LENGTH_LONG, e.getMessage());
         }
+
+        userData.setLastLoginMillis(lastLoginMillis);
     }
+
 
     public DatabaseHelper getDatabaseHelper() {
         return databaseHelper;

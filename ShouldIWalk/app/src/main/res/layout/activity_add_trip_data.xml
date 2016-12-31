@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="0dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="0dp">
+
+    <HorizontalScrollView
+            android:id="@+id/tabsHorizontalView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/appBackground"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/gotoStartLocationScreenButton"
+                style="@style/TabbedButton"
+                android:text="@string/gotoStartLocationScreenButtonText" />
+
+            <Button
+                android:id="@+id/gotoStartDateTimeScreenButton"
+                style="@style/TabbedButton"
+                android:text="@string/gotoStartDateTimeScreenButtonText" />
+
+            <Button
+                android:id="@+id/gotoEndLocationScreenButton"
+                style="@style/TabbedButton"
+                android:text="@string/gotoEndLocationScreenButtonText" />
+
+            <Button
+                android:id="@+id/gotoEndDateTimeScreenButton"
+                style="@style/TabbedButton"
+                android:text="@string/gotoEndDateTimeScreenButtonText" />
+
+            <Button
+                android:id="@+id/gotoMeanOfTransportScreenButton"
+                style="@style/TabbedButton"
+                android:text="@string/gotoMeanOfTransportScreenButtonText" />
+
+            <Button
+                android:id="@+id/gotoWeatherScreenButton"
+                style="@style/TabbedButton"
+                android:text="@string/gotoWeatherScreenButtonText" />
+
+            <Button
+                android:id="@+id/gotoTrafficLevelScreenButton"
+                style="@style/TabbedButton"
+                android:text="@string/gotoTrafficLevelScreenButtonText" />
+
+            <Button
+                android:id="@+id/gotoEffortLevelScreenButton"
+                style="@style/TabbedButton"
+                android:text="@string/gotoEffortLevelScreenButtonText" />
+
+            <Button
+                android:id="@+id/gotoRushLevelScreenButton"
+                style="@style/TabbedButton"
+                android:text="@string/gotoRushLevelScreenButtonText" />
+
+            <Button
+                android:id="@+id/gotoSatisfactionLevelScreenButton"
+                style="@style/TabbedButton"
+                android:text="@string/gotoSatisfactionLevelScreenButtonText" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/tripDataViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabsHorizontalView" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal"
+        android:paddingBottom="15dp">
+
+        <Button
+            android:id="@+id/gotoNextScreenButton"
+            style="@style/RoundFloatingButton" />
+    </LinearLayout>
+
+</RelativeLayout>

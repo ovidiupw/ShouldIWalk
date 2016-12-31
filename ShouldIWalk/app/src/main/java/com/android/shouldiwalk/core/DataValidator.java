@@ -59,6 +59,5 @@ public class DataValidator {
         if (tripData.getSatisfactionLevel() > 5 || tripData.getSatisfactionLevel() < 0) {
             throw new InvalidDataException("SatisfactionLevel must be a value in interval [0, 5].");
         }
-
     }
 }

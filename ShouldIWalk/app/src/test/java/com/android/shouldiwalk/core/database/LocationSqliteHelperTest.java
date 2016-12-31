@@ -62,10 +62,12 @@ public class LocationSqliteHelperTest {
         Location location1 = new Location(1, 12, 10.4);
         Location location2 = new Location(2, 8.3, 2);
         Location location3 = new Location(3, 5, 7.23337);
+        Location location4 = new Location(3, 5, -7.23337);
 
         locationSqliteHelper.insert(location1);
         locationSqliteHelper.insert(location2);
         locationSqliteHelper.insert(location3);
+        locationSqliteHelper.insert(location4);
 
         List<Location> locations = locationSqliteHelper.loadItems(new QueryData()
                 .addBinaryCondition(

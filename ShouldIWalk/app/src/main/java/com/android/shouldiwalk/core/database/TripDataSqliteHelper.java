@@ -126,8 +126,8 @@ public class TripDataSqliteHelper implements TripDataDBHelper {
         Cursor cursor = null;
 
         try {
-            Map<String, SqlQuery> updateQueries = getAllQueriesFromCategory(Display, context);
-            String itemCountQuery = updateQueries.get(COUNT_QUERY_NAME).getQueryString();
+            Map<String, SqlQuery> queries = getAllQueriesFromCategory(Display, context);
+            String itemCountQuery = queries.get(COUNT_QUERY_NAME).getQueryString();
 
             cursor = database.rawQuery(itemCountQuery, null);
             if (cursor.moveToFirst()) {

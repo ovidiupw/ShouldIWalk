@@ -34,7 +34,6 @@ public class SqlStatementsTest {
         mainActivity = Robolectric.setupActivity(MainActivity.class);
     }
 
-
     @Test
     public void when_whenRequestingTestQueries_then_parsesXMLCorrectly() throws Exception {
         AssetManager mainActivityAssets = mainActivity.getResources().getAssets();

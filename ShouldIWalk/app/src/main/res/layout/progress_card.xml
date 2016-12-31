@@ -24,8 +24,8 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/firstPredictionCardTitle"
-                style="@style/cardTitle"
+                android:id="@+id/progressToFirstPredictionCardTitle"
+                style="@style/CardTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
@@ -33,8 +33,8 @@
                 />
 
             <TextView
-                android:id="@+id/firstPredictionCardSubtitle"
-                style="@style/cardSubtitle"
+                android:id="@+id/progressToFirstPredictionCardSubtitle"
+                style="@style/CardSubtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
@@ -57,7 +57,8 @@
         android:layout_height="1dp"
         android:layout_marginTop="20dp"
         android:layout_below="@id/firstPredictionCardHeader"
-        android:background="@color/horizontalSeparatorColor"/>
+        android:background="@color/horizontalSeparatorColor"
+        android:contentDescription="@string/lineSeparatorContentDescription"/>
 
     <ProgressBar
         android:id="@+id/firstPredictionProgressBar"
@@ -72,11 +73,12 @@
         android:scaleY="8" />
 
     <Button
+        android:id="@+id/firstPredictionProgressBarAddTripDataButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/firstPredictionProgressBar"
         android:layout_marginTop="20dp"
-        android:text="@string/firstPredictionAddEventButton" />
+        android:text="@string/firstPredictionAddEventButtonText" />
 
 
 </RelativeLayout>
