@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              style="@style/StandardPadding"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/appBackground"
+              android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="0">
+
+        <TableRow>
+
+            <LinearLayout
+                android:id="@+id/dateTimePickerCard"
+                style="@style/StandardPadding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/card_shape"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/datePickerTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/card_shape"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:padding="10dp"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    android:stretchColumns="*">
+
+                    <TableRow>
+
+                        <TextView
+                            android:id="@+id/datePickerDateTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            android:text="20 / July / 2017"
+                            android:textAlignment="center"
+                            android:textSize="25sp"
+                            android:textStyle="bold"/>
+
+                        <Button
+                            android:id="@+id/datePickerButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/datePickerChooseDateButtonText"
+                            android:textAllCaps="false"/>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:id="@+id/timePickerDateTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            android:text="10:23 PM"
+                            android:textAlignment="center"
+                            android:textSize="25sp"
+                            android:textStyle="bold"/>
+
+                        <Button
+                            android:id="@+id/timePickerButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/datePickerChooseTimeButtonText"
+                            android:textAllCaps="false"/>
+                    </TableRow>
+
+                </TableLayout>
+            </LinearLayout>
+
+            <Button
+                style="@style/RoundFloatingButton"
+                android:visibility="invisible"/>
+        </TableRow>
+
+    </TableLayout>
+
+
+</LinearLayout>

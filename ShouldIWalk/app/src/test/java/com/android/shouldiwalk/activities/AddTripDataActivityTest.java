@@ -18,7 +18,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
-public class TripDataFragmentPageAdapterTest {
+public class AddTripDataActivityTest {
 
     private AddTripDataActivity addTripDataActivity;
 

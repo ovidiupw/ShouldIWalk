@@ -27,4 +27,8 @@
     <string name="infoAlertDismissButtonText">Dismiss</string>
     <string name="noNetworkConnectionDialogTitle">No network connection</string>
     <string name="noNetworkConnectionDialogMessage">No network connection detected! To use this application, it is strongly advised that you have an internet connection available!</string>
+    <string name="dateTimePickerStartDateTitle">Choose the start date for your trip</string>
+    <string name="dateTimePickerEndDateTitle">Choose the end date for your trip</string>
+    <string name="datePickerChooseDateButtonText">Choose date</string>
+    <string name="datePickerChooseTimeButtonText">Choose time</string>
 </resources>

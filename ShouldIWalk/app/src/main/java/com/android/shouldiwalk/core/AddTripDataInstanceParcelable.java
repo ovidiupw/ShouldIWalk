@@ -34,8 +34,8 @@ public class AddTripDataInstanceParcelable implements Parcelable {
         this.endLocation = in.readParcelable(LatLng.class.getClassLoader());
         this.startLocation = in.readParcelable(LatLng.class.getClassLoader());
         this.activeScreenIndex = in.readInt();
-
         Log.i(CLASS_TAG, "Successfully loaded trip data instance parcelable: " + this);
+
     }
 
     @Override

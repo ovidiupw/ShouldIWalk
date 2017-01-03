@@ -16,12 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 
 import com.android.shouldiwalk.R;
 import com.android.shouldiwalk.activities.fragments.DateTimePickerFragment;
 import com.android.shouldiwalk.activities.fragments.MapLocationChooserFragment;
 import com.android.shouldiwalk.core.AddTripDataInstanceParcelable;
 import com.google.android.gms.maps.model.LatLng;
+import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
 import java.util.Date;
 
@@ -37,8 +39,8 @@ public class AddTripDataActivity
 
     private static final String START_LOCATION_FRAGMENT_ID = "StartLocation";
     private static final String END_LOCATION_FRAGMENT_ID = "EndLocation";
-    private static final String START_DATE_FRAGMENT_ID = "StartLocation";
-    private static final String END_DATE_FRAGMENT_ID = "EndLocation";
+    private static final String START_DATE_FRAGMENT_ID = "StartDate";
+    private static final String END_DATE_FRAGMENT_ID = "EndDate";
 
     private TripDataFragmentPageAdapter tripDataFragmentPageAdapter;
     private ViewPager tripDataViewPager;
@@ -313,6 +315,8 @@ public class AddTripDataActivity
                     addTripDataActivity.instanceData.getEndDate(), END_DATE_FRAGMENT_ID);
         }
 
+
+
         @Override
         public int getCount() {
             return addTripDataActivity.orderOfPages.size();
@@ -327,6 +331,8 @@ public class AddTripDataActivity
                     return endLocationMapFragment;
                 case R.id.gotoStartDateTimeScreenButton:
                     return startDateTimePickerFragment;
+                case R.id.gotoEndDateTimeScreenButton:
+                    return endDateTimePickerFragment;
                 default:
                     return new DefaultFragmentForTest();
             }
@@ -356,8 +362,23 @@ public class AddTripDataActivity
                     DateTimePickerFragment.INITIAL_DATE,
                     date);
             fragmentArguments.putString(
-                    MapLocationChooserFragment.FRAGMENT_ID,
+                    DateTimePickerFragment.FRAGMENT_ID,
                     fragmentId);
+
+            switch (fragmentId) {
+                case START_DATE_FRAGMENT_ID:
+                    fragmentArguments.putString(
+                            DateTimePickerFragment.DATE_PICKER_CARD_TITLE,
+                            addTripDataActivity.getString(R.string.dateTimePickerStartDateTitle));
+                    break;
+                case END_DATE_FRAGMENT_ID:
+                    fragmentArguments.putString(
+                            DateTimePickerFragment.DATE_PICKER_CARD_TITLE,
+                            addTripDataActivity.getString(R.string.dateTimePickerEndDateTitle));
+                    break;
+                default:
+                    throw new UnsupportedOperationException("Case not covered!");
+            }
 
             dateTimePickerFragment.setArguments(fragmentArguments);
             return dateTimePickerFragment;
