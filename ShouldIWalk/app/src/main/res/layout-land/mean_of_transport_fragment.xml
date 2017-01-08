@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              style="@style/StandardPadding"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/appBackground"
+              android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="0">
+
+        <TableRow>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/meanOfTransportListView"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="5.0sp"
+                android:layout_margin="5.0sp"
+                android:layout_marginEnd="20dp"/>
+
+            <Button
+                style="@style/RoundFloatingButton"
+                android:visibility="invisible"/>
+        </TableRow>
+
+    </TableLayout>
+
+
+</LinearLayout>

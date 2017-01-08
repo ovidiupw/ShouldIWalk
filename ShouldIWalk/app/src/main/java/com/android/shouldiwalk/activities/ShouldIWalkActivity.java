@@ -25,6 +25,7 @@ public class ShouldIWalkActivity extends AppCompatActivity {
 
     private Handler networkConnectivityCheckerHandler;
     private ConnectivityManager connectivityManager;
+    private AlertDialog dialog;
 
     private final WeakReference<ShouldIWalkActivity> activityWeakReference = new WeakReference<>(this);
 
@@ -49,7 +50,7 @@ public class ShouldIWalkActivity extends AppCompatActivity {
                         return;
                     }
 
-                    AlertDialog dialog = buildInfoDialog(activityWeakReference.get(), new AlertDialogs.InfoDialogData()
+                    dialog = buildInfoDialog(activityWeakReference.get(), new AlertDialogs.InfoDialogData()
                             .withAlertTitle(R.string.noNetworkConnectionDialogTitle)
                             .withAlertMessage(R.string.noNetworkConnectionDialogMessage));
 
@@ -62,8 +63,8 @@ public class ShouldIWalkActivity extends AppCompatActivity {
                         }
                     });
 
-                    dialog.show();
-                    isDialogOpen = true;
+                    //dialog.show();
+                    //isDialogOpen = true;
 
                 } else if (isNetworkAvailable && !wasNetworkAvailable) {
                     wasNetworkAvailable = true;
@@ -88,6 +89,7 @@ public class ShouldIWalkActivity extends AppCompatActivity {
         super.onResume();
         networkConnectivityCheckerHandler = new Handler();
         startPeriodicCheckForConnectivity();
+        Log.v(CLASS_TAG, "Started periodic check for internet connectivity!");
     }
 
     @Override
@@ -95,6 +97,13 @@ public class ShouldIWalkActivity extends AppCompatActivity {
         super.onPause();
         networkConnectivityCheckerHandler = new Handler();
         stopPeriodicCheckForConnectivity();
+        Log.v(CLASS_TAG, "Stopped periodic check for internet connectivity!");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        dialog.dismiss();
     }
 
     private void startPeriodicCheckForConnectivity() {

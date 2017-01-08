@@ -1,6 +1,10 @@
 package helpers;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.android.shouldiwalk.core.model.Location;
 import com.android.shouldiwalk.core.model.MeanOfTransport;
@@ -28,5 +32,12 @@ public class TestHelper {
         tripData.setWeatherStatus(WeatherStatus.Sunny);
 
         return tripData;
+    }
+
+    public static void addMapFragmentToActivity(FragmentActivity activity, Fragment fragment, String fragmentTag) {
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(fragment, fragmentTag);
+        transaction.commit();
     }
 }

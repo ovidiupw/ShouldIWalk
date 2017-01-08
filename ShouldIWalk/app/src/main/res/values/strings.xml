@@ -31,4 +31,5 @@
     <string name="dateTimePickerEndDateTitle">Choose the end date for your trip</string>
     <string name="datePickerChooseDateButtonText">Choose date</string>
     <string name="datePickerChooseTimeButtonText">Choose time</string>
+    <string name="meanOfTransportImageButtonDescription">More information button</string>
 </resources>

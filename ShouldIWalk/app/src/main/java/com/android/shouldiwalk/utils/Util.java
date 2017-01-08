@@ -1,10 +1,11 @@
 package com.android.shouldiwalk.utils;
 
 import android.content.Context;
+import android.os.Build;
 
 public class Util {
 
-    public static float dpFromPx(final Context context, final float px) {
-        return px / context.getResources().getDisplayMetrics().density;
+    public static boolean isRoboUnitTest() {
+        return "robolectric".equals(Build.FINGERPRINT);
     }
 }

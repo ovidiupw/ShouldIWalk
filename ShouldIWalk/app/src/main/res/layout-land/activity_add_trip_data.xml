@@ -40,14 +40,14 @@
                 android:text="@string/gotoEndDateTimeScreenButtonText" />
 
             <Button
-                android:id="@+id/gotoMeanOfTransportScreenButton"
-                style="@style/TabbedButton"
-                android:text="@string/gotoMeanOfTransportScreenButtonText" />
-
-            <Button
                 android:id="@+id/gotoWeatherScreenButton"
                 style="@style/TabbedButton"
                 android:text="@string/gotoWeatherScreenButtonText" />
+
+            <Button
+                android:id="@+id/gotoMeanOfTransportScreenButton"
+                style="@style/TabbedButton"
+                android:text="@string/gotoMeanOfTransportScreenButtonText" />
 
             <Button
                 android:id="@+id/gotoTrafficLevelScreenButton"

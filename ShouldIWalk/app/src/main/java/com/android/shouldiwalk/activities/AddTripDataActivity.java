@@ -16,31 +16,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
-import android.widget.LinearLayout;
 
 import com.android.shouldiwalk.R;
 import com.android.shouldiwalk.activities.fragments.DateTimePickerFragment;
 import com.android.shouldiwalk.activities.fragments.MapLocationChooserFragment;
+import com.android.shouldiwalk.activities.fragments.MeanOfTransportFragment;
+import com.android.shouldiwalk.activities.fragments.ShouldIWalkFragment;
+import com.android.shouldiwalk.core.AddTripDataDefaults;
 import com.android.shouldiwalk.core.AddTripDataInstanceParcelable;
+import com.android.shouldiwalk.core.model.MeanOfTransport;
 import com.google.android.gms.maps.model.LatLng;
-import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
 import java.util.Date;
 
 import static com.android.shouldiwalk.R.id.tabsHorizontalView;
 
-public class AddTripDataActivity
-        extends ShouldIWalkActivity
-        implements
+public class AddTripDataActivity extends ShouldIWalkActivity implements
         MapLocationChooserFragment.OnMapMarkerLocationChangeListener,
-        DateTimePickerFragment.OnDateChangeListener {
+        DateTimePickerFragment.OnDateChangeListener,
+        MeanOfTransportFragment.OnMeanOfTransportChangeListener {
 
     private static final String CLASS_TAG = AddTripDataActivity.class.getCanonicalName() + "-TAG";
 
-    private static final String START_LOCATION_FRAGMENT_ID = "StartLocation";
-    private static final String END_LOCATION_FRAGMENT_ID = "EndLocation";
-    private static final String START_DATE_FRAGMENT_ID = "StartDate";
-    private static final String END_DATE_FRAGMENT_ID = "EndDate";
+    public static final String START_LOCATION_FRAGMENT_ID = "StartLocation";
+    public static final String END_LOCATION_FRAGMENT_ID = "EndLocation";
+    public static final String START_DATE_FRAGMENT_ID = "StartDate";
+    public static final String END_DATE_FRAGMENT_ID = "EndDate";
+    public static final String MEAN_OF_TRANSPORT_FRAGMENT_ID = "MeanOfTransport";
 
     private TripDataFragmentPageAdapter tripDataFragmentPageAdapter;
     private ViewPager tripDataViewPager;
@@ -61,6 +63,7 @@ public class AddTripDataActivity
         tripDataFragmentPageAdapter = new TripDataFragmentPageAdapter(this, getSupportFragmentManager());
         tripDataViewPager = (ViewPager) findViewById(R.id.tripDataViewPager);
         tripDataViewPager.setAdapter(tripDataFragmentPageAdapter);
+        tripDataViewPager.setOffscreenPageLimit(10);
 
         final AddTripDataActivity that = this;
         tripDataViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -90,25 +93,30 @@ public class AddTripDataActivity
         if (savedInstanceState != null) {
             savedInstanceData = savedInstanceState.getParcelable(AddTripDataInstanceParcelable.getIdentifier());
             Log.d(CLASS_TAG, "Restored instance state from bundle: " + savedInstanceData);
-            return savedInstanceData;
         }
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState != null && !savedInstanceData.isErrorOnDeserializing()) {
+            return savedInstanceData;
+        } else {
             // TODO initialize with default values from user preferences
             savedInstanceData = new AddTripDataInstanceParcelable();
             Log.d(CLASS_TAG, "Instance state bundle was null, initializing with default values.");
         }
+
         if (savedInstanceData.getStartLocation() == null) {
-            savedInstanceData.setStartLocation(new LatLng(47.151726, 27.587914));
+            savedInstanceData.setStartLocation(AddTripDataDefaults.START_LOCATION);
         }
         if (savedInstanceData.getEndLocation() == null) {
-            savedInstanceData.setEndLocation(new LatLng(47.151726, 27.587914));
+            savedInstanceData.setEndLocation(AddTripDataDefaults.END_LOCATION);
         }
         if (savedInstanceData.getStartDate() == null) {
-            savedInstanceData.setStartDate(new Date());
+            savedInstanceData.setStartDate(AddTripDataDefaults.START_DATE);
         }
         if (savedInstanceData.getEndDate() == null) {
-            savedInstanceData.setEndDate(new Date());
+            savedInstanceData.setEndDate(AddTripDataDefaults.END_DATE);
+        }
+        if (savedInstanceData.getMeanOfTransport() == null) {
+            savedInstanceData.setMeanOfTransport(MeanOfTransport.Walk);
         }
 
         return savedInstanceData;
@@ -119,18 +127,9 @@ public class AddTripDataActivity
         if (outState == null) {
             outState = new Bundle();
         }
+        Log.d(CLASS_TAG, "Prepared instance data for saving as bundle: " + instanceData);
 
-        AddTripDataInstanceParcelable savedInstanceData = new AddTripDataInstanceParcelable();
-
-        savedInstanceData.setActiveScreenIndex(activeScreenIndex);
-        savedInstanceData.setStartLocation(instanceData.getStartLocation());
-        savedInstanceData.setEndLocation(instanceData.getEndLocation());
-        savedInstanceData.setStartDate(instanceData.getStartDate());
-        savedInstanceData.setEndDate(instanceData.getEndDate());
-
-        Log.d(CLASS_TAG, "Prepared instance data for saving as bundle: " + savedInstanceData);
-
-        outState.putParcelable(AddTripDataInstanceParcelable.getIdentifier(), savedInstanceData);
+        outState.putParcelable(AddTripDataInstanceParcelable.getIdentifier(), instanceData);
         super.onSaveInstanceState(outState);
     }
 
@@ -158,8 +157,8 @@ public class AddTripDataActivity
         orderOfPages.put(1, R.id.gotoStartDateTimeScreenButton);
         orderOfPages.put(2, R.id.gotoEndLocationScreenButton);
         orderOfPages.put(3, R.id.gotoEndDateTimeScreenButton);
-        orderOfPages.put(4, R.id.gotoMeanOfTransportScreenButton);
-        orderOfPages.put(5, R.id.gotoWeatherScreenButton);
+        orderOfPages.put(4, R.id.gotoWeatherScreenButton);
+        orderOfPages.put(5, R.id.gotoMeanOfTransportScreenButton);
         orderOfPages.put(6, R.id.gotoTrafficLevelScreenButton);
         orderOfPages.put(7, R.id.gotoEffortLevelScreenButton);
         orderOfPages.put(8, R.id.gotoRushLevelScreenButton);
@@ -202,6 +201,7 @@ public class AddTripDataActivity
         }
 
         this.activeScreenIndex = tabPositionIndex;
+        this.instanceData.setActiveScreenIndex(tabPositionIndex);
 
         Button newActiveButton = (Button) findViewById(orderOfPages.get(tabPositionIndex));
         if (newActiveButton != null) {
@@ -287,6 +287,18 @@ public class AddTripDataActivity
 
     }
 
+    @Override
+    public void onMeanOfTransportChange(String sourceFragmentId, MeanOfTransport meanOfTransport) {
+        Log.d(CLASS_TAG, String.format("Received new mean of transport {%s} from {%s}", meanOfTransport, sourceFragmentId));
+        switch (sourceFragmentId) {
+            case MEAN_OF_TRANSPORT_FRAGMENT_ID:
+                instanceData.setMeanOfTransport(meanOfTransport);
+                break;
+            default:
+                throw new UnsupportedOperationException("Switch branch not implemented!");
+        }
+    }
+
     public static class TripDataFragmentPageAdapter extends FragmentPagerAdapter {
         private final AddTripDataActivity addTripDataActivity;
 
@@ -299,6 +311,7 @@ public class AddTripDataActivity
         private MapLocationChooserFragment endLocationMapFragment;
         private DateTimePickerFragment startDateTimePickerFragment;
         private DateTimePickerFragment endDateTimePickerFragment;
+        private MeanOfTransportFragment meanOfTransportFragment;
 
         TripDataFragmentPageAdapter(AddTripDataActivity addTripDataActivity, FragmentManager fm) {
             super(fm);
@@ -313,6 +326,9 @@ public class AddTripDataActivity
                     addTripDataActivity.instanceData.getStartDate(), START_DATE_FRAGMENT_ID);
             this.endDateTimePickerFragment = (DateTimePickerFragment) initializeDateTimePickerFragment(
                     addTripDataActivity.instanceData.getEndDate(), END_DATE_FRAGMENT_ID);
+
+            this.meanOfTransportFragment = (MeanOfTransportFragment) initializeMeanOfTransportFragment(
+                    addTripDataActivity.instanceData.getMeanOfTransport(), MEAN_OF_TRANSPORT_FRAGMENT_ID);
         }
 
 
@@ -333,6 +349,8 @@ public class AddTripDataActivity
                     return startDateTimePickerFragment;
                 case R.id.gotoEndDateTimeScreenButton:
                     return endDateTimePickerFragment;
+                case R.id.gotoMeanOfTransportScreenButton:
+                    return meanOfTransportFragment;
                 default:
                     return new DefaultFragmentForTest();
             }
@@ -383,9 +401,30 @@ public class AddTripDataActivity
             dateTimePickerFragment.setArguments(fragmentArguments);
             return dateTimePickerFragment;
         }
+
+        private Fragment initializeMeanOfTransportFragment(MeanOfTransport meanOfTransport, String fragmentId) {
+            Fragment meanOfTransportFragment = new MeanOfTransportFragment();
+
+            Bundle fragmentArguments = new Bundle();
+            fragmentArguments.putString(
+                    MeanOfTransportFragment.FRAGMENT_ID,
+                    fragmentId);
+            fragmentArguments.putString(
+                    MeanOfTransportFragment.INITIAL_MEAN_OF_TRANSPORT,
+                    meanOfTransport.toString());
+
+            meanOfTransportFragment.setArguments(fragmentArguments);
+            return meanOfTransportFragment;
+        }
     }
 
-    public static class DefaultFragmentForTest extends Fragment {
+    public static class DefaultFragmentForTest extends ShouldIWalkFragment {
+
+        @Override
+        public String getFragmentId() {
+            return "DefaultFragmentForTest";
+        }
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -407,7 +446,13 @@ public class AddTripDataActivity
         return orderOfPages;
     }
 
-    public AddTripDataInstanceParcelable getInstanceData() {
+    @VisibleForTesting
+    AddTripDataInstanceParcelable getInstanceData() {
         return instanceData;
+    }
+
+    @VisibleForTesting
+    TripDataFragmentPageAdapter getTripDataFragmentPageAdapter() {
+        return tripDataFragmentPageAdapter;
     }
 }

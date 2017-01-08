@@ -4,33 +4,23 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
-import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.shouldiwalk.R;
 import com.android.shouldiwalk.utils.DateTimePickerWidget;
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import static android.content.Context.WINDOW_SERVICE;
-
-public class DateTimePickerFragment extends Fragment {
+public class DateTimePickerFragment extends ShouldIWalkFragment {
 
     public static final String DATETIME_PICKER_DIALOG_TAG = "DateTimePicker";
-    public static final String FRAGMENT_ID = "FragmentId";
     public static final String INITIAL_DATE = "InitialDate";
     public static final String DATE_PICKER_CARD_TITLE = "DatePickerCardTitle";
 
@@ -40,7 +30,6 @@ public class DateTimePickerFragment extends Fragment {
     private static final SimpleDateFormat TIME_FORMAT
             = new SimpleDateFormat("HH:mm", java.util.Locale.getDefault());
 
-    private String fragmentId;
     private Date currentDate;
     private String datePickerCardTitle;
     private boolean isDatePickerOpen;
@@ -51,7 +40,6 @@ public class DateTimePickerFragment extends Fragment {
 
     public interface OnDateChangeListener {
         void onDateChange(String sourceFragmentId, Date date);
-        //TODO call this when updating date in current fragment
     }
 
     @Override
@@ -61,7 +49,7 @@ public class DateTimePickerFragment extends Fragment {
         try {
             dateChangeListener = (DateTimePickerFragment.OnDateChangeListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement OnHeadlineSelectedListener");
+            throw new ClassCastException(context.toString() + " must implement OnDateChangeListener");
         }
     }
 

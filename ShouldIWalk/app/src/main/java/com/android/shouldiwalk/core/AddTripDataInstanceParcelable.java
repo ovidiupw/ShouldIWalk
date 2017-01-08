@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.android.shouldiwalk.activities.AddTripDataActivity;
+import com.android.shouldiwalk.core.model.MeanOfTransport;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
@@ -19,6 +20,9 @@ public class AddTripDataInstanceParcelable implements Parcelable {
     private LatLng endLocation;
     private Date startDate;
     private Date endDate;
+    private MeanOfTransport meanOfTransport;
+
+    private boolean errorOnDeserializing;
 
     public static String getIdentifier() {
         return "AddTripDataInstanceParcelable";
@@ -29,12 +33,18 @@ public class AddTripDataInstanceParcelable implements Parcelable {
     }
 
     protected AddTripDataInstanceParcelable(Parcel in) {
-        this.endDate = (Date) in.readSerializable();
-        this.startDate = (Date) in.readSerializable();
-        this.endLocation = in.readParcelable(LatLng.class.getClassLoader());
-        this.startLocation = in.readParcelable(LatLng.class.getClassLoader());
-        this.activeScreenIndex = in.readInt();
-        Log.i(CLASS_TAG, "Successfully loaded trip data instance parcelable: " + this);
+        try {
+            this.meanOfTransport = MeanOfTransport.valueOf(in.readString());
+            this.endDate = (Date) in.readSerializable();
+            this.startDate = (Date) in.readSerializable();
+            this.endLocation = in.readParcelable(LatLng.class.getClassLoader());
+            this.startLocation = in.readParcelable(LatLng.class.getClassLoader());
+            this.activeScreenIndex = in.readInt();
+            Log.i(CLASS_TAG, "Successfully loaded trip data instance parcelable: " + this);
+        } catch (RuntimeException e) {
+            Log.e(CLASS_TAG, e.getMessage());
+            this.errorOnDeserializing = true;
+        }
 
     }
 
@@ -45,6 +55,7 @@ public class AddTripDataInstanceParcelable implements Parcelable {
         dest.writeParcelable(endLocation, flags);
         dest.writeSerializable(startDate);
         dest.writeSerializable(endDate);
+        dest.writeString(meanOfTransport.toString());
     }
 
     @Override
@@ -107,21 +118,31 @@ public class AddTripDataInstanceParcelable implements Parcelable {
         this.endDate = endDate;
     }
 
+    public MeanOfTransport getMeanOfTransport() {
+        return meanOfTransport;
+    }
+
+    public void setMeanOfTransport(MeanOfTransport meanOfTransport) {
+        this.meanOfTransport = meanOfTransport;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddTripDataInstanceParcelable that = (AddTripDataInstanceParcelable) o;
         return activeScreenIndex == that.activeScreenIndex &&
+                errorOnDeserializing == that.errorOnDeserializing &&
                 Objects.equals(startLocation, that.startLocation) &&
                 Objects.equals(endLocation, that.endLocation) &&
                 Objects.equals(startDate, that.startDate) &&
-                Objects.equals(endDate, that.endDate);
+                Objects.equals(endDate, that.endDate) &&
+                meanOfTransport == that.meanOfTransport;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(activeScreenIndex, startLocation, endLocation, startDate, endDate);
+        return Objects.hash(activeScreenIndex, startLocation, endLocation, startDate, endDate, meanOfTransport, errorOnDeserializing);
     }
 
     @Override
@@ -132,6 +153,12 @@ public class AddTripDataInstanceParcelable implements Parcelable {
                 ", endLocation=" + endLocation +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
+                ", meanOfTransport=" + meanOfTransport +
+                ", errorOnDeserializing=" + errorOnDeserializing +
                 '}';
+    }
+
+    public boolean isErrorOnDeserializing() {
+        return errorOnDeserializing;
     }
 }

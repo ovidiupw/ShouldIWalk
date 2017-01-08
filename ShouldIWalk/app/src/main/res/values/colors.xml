@@ -8,4 +8,6 @@
     <color name="activeTab">#BBBBBB</color>
     <color name="cardColor">#FFFFFF</color>
     <color name="horizontalSeparatorColor">#EEEEEE</color>
+    <color name="listItemTitleColorDark">#333333</color>
+    <color name="listItemTitleColorLight">#EEEEEE</color>
 </resources>
