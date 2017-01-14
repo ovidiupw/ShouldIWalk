@@ -14,48 +14,56 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/CardTitle"
             android:id="@+id/datePickerTitle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/card_shape"
-            android:backgroundTint="@color/colorPrimary"
-            android:padding="10dp"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Programatically set title"/>
+
+        <TextView
+            style="@style/CardSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="@string/datetimePickerCardSubtitle"/>
 
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:orientation="horizontal"
             android:stretchColumns="*">
 
             <TableRow>
+
+                <Button
+                    android:id="@+id/datePickerButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/datePickerChooseDateButtonText"
+                    android:textAllCaps="false"/>
 
                 <TextView
                     android:id="@+id/datePickerDateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingTop="5dp"
                     android:text="20 July 2017"
                     android:textAlignment="center"
-                    android:textSize="25sp"
+                    android:textSize="22sp"
                     android:textStyle="bold"/>
-
-                <Button
-                    android:id="@+id/datePickerButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/datePickerChooseDateButtonText"
-                    android:textAllCaps="false"/>
             </TableRow>
 
             <TableRow
                 android:layout_marginTop="10dp">
+
+                <Button
+                    android:id="@+id/timePickerButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/datePickerChooseTimeButtonText"
+                    android:textAllCaps="false"/>
 
                 <TextView
                     android:id="@+id/timePickerDateTextView"
@@ -67,14 +75,6 @@
                     android:textAlignment="center"
                     android:textSize="25sp"
                     android:textStyle="bold"/>
-
-                <Button
-                    android:id="@+id/timePickerButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/datePickerChooseTimeButtonText"
-                    android:textAllCaps="false"/>
             </TableRow>
 
         </TableLayout>

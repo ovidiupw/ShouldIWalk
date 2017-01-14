@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.android.shouldiwalk.activities.AddTripDataActivity;
 import com.android.shouldiwalk.core.model.MeanOfTransport;
+import com.android.shouldiwalk.core.model.WeatherStatus;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
@@ -23,6 +24,8 @@ public class AddTripDataInstanceParcelable implements Parcelable {
     private MeanOfTransport meanOfTransport;
 
     private boolean errorOnDeserializing;
+    private int temperature;
+    private WeatherStatus weatherStatus;
 
     public static String getIdentifier() {
         return "AddTripDataInstanceParcelable";
@@ -34,6 +37,8 @@ public class AddTripDataInstanceParcelable implements Parcelable {
 
     protected AddTripDataInstanceParcelable(Parcel in) {
         try {
+            this.temperature = in.readInt();
+            this.weatherStatus = WeatherStatus.valueOf(in.readString());
             this.meanOfTransport = MeanOfTransport.valueOf(in.readString());
             this.endDate = (Date) in.readSerializable();
             this.startDate = (Date) in.readSerializable();
@@ -56,6 +61,8 @@ public class AddTripDataInstanceParcelable implements Parcelable {
         dest.writeSerializable(startDate);
         dest.writeSerializable(endDate);
         dest.writeString(meanOfTransport.toString());
+        dest.writeString(weatherStatus.toString());
+        dest.writeInt(temperature);
     }
 
     @Override
@@ -126,6 +133,22 @@ public class AddTripDataInstanceParcelable implements Parcelable {
         this.meanOfTransport = meanOfTransport;
     }
 
+    public int getTemperature() {
+        return temperature;
+    }
+
+    public WeatherStatus getWeatherStatus() {
+        return weatherStatus;
+    }
+
+    public void setTemperature(int temperature) {
+        this.temperature = temperature;
+    }
+
+    public void setWeatherStatus(WeatherStatus weatherStatus) {
+        this.weatherStatus = weatherStatus;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -133,16 +156,18 @@ public class AddTripDataInstanceParcelable implements Parcelable {
         AddTripDataInstanceParcelable that = (AddTripDataInstanceParcelable) o;
         return activeScreenIndex == that.activeScreenIndex &&
                 errorOnDeserializing == that.errorOnDeserializing &&
+                temperature == that.temperature &&
                 Objects.equals(startLocation, that.startLocation) &&
                 Objects.equals(endLocation, that.endLocation) &&
                 Objects.equals(startDate, that.startDate) &&
                 Objects.equals(endDate, that.endDate) &&
-                meanOfTransport == that.meanOfTransport;
+                meanOfTransport == that.meanOfTransport &&
+                weatherStatus == that.weatherStatus;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(activeScreenIndex, startLocation, endLocation, startDate, endDate, meanOfTransport, errorOnDeserializing);
+        return Objects.hash(activeScreenIndex, startLocation, endLocation, startDate, endDate, meanOfTransport, errorOnDeserializing, temperature, weatherStatus);
     }
 
     @Override
@@ -155,6 +180,8 @@ public class AddTripDataInstanceParcelable implements Parcelable {
                 ", endDate=" + endDate +
                 ", meanOfTransport=" + meanOfTransport +
                 ", errorOnDeserializing=" + errorOnDeserializing +
+                ", temperature=" + temperature +
+                ", weatherStatus=" + weatherStatus +
                 '}';
     }
 

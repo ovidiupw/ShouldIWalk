@@ -1,7 +1,6 @@
 package com.android.shouldiwalk.activities;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -11,21 +10,23 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.android.shouldiwalk.R;
-import com.android.shouldiwalk.utils.AlertDialogs;
+import com.android.shouldiwalk.core.ShouldIWalkApplication;
 
 import java.lang.ref.WeakReference;
 
-import static com.android.shouldiwalk.utils.AlertDialogs.buildInfoDialog;
+import javax.inject.Inject;
 
 public class ShouldIWalkActivity extends AppCompatActivity {
 
     private static final String CLASS_TAG = ShouldIWalkActivity.class.getCanonicalName() + "-TAG";
     private static final int ONE_SECOND_IN_MILLIS = 1000;
 
-    private Handler networkConnectivityCheckerHandler;
-    private ConnectivityManager connectivityManager;
-    private AlertDialog dialog;
+    @Inject
+    Handler networkConnectivityCheckerHandler;
+    @Inject
+    ConnectivityManager connectivityManager;
+    @Inject
+    AlertDialog dialog;
 
     private final WeakReference<ShouldIWalkActivity> activityWeakReference = new WeakReference<>(this);
 
@@ -50,21 +51,16 @@ public class ShouldIWalkActivity extends AppCompatActivity {
                         return;
                     }
 
-                    dialog = buildInfoDialog(activityWeakReference.get(), new AlertDialogs.InfoDialogData()
-                            .withAlertTitle(R.string.noNetworkConnectionDialogTitle)
-                            .withAlertMessage(R.string.noNetworkConnectionDialogMessage));
-
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
                             isDialogOpen = false;
                             dialog.dismiss();
-
                         }
                     });
 
-                    //dialog.show();
-                    //isDialogOpen = true;
+                    dialog.show();
+                    isDialogOpen = true;
 
                 } else if (isNetworkAvailable && !wasNetworkAvailable) {
                     wasNetworkAvailable = true;
@@ -81,13 +77,12 @@ public class ShouldIWalkActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ((ShouldIWalkApplication) getApplication()).getShouldIWalkActivityComponent(this).inject(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        networkConnectivityCheckerHandler = new Handler();
         startPeriodicCheckForConnectivity();
         Log.v(CLASS_TAG, "Started periodic check for internet connectivity!");
     }
@@ -95,7 +90,6 @@ public class ShouldIWalkActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        networkConnectivityCheckerHandler = new Handler();
         stopPeriodicCheckForConnectivity();
         Log.v(CLASS_TAG, "Stopped periodic check for internet connectivity!");
     }
@@ -103,7 +97,10 @@ public class ShouldIWalkActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        dialog.dismiss();
+        try {
+            dialog.dismiss();
+        } catch (Exception ignored) {
+        }
     }
 
     private void startPeriodicCheckForConnectivity() {
@@ -117,4 +114,5 @@ public class ShouldIWalkActivity extends AppCompatActivity {
     public boolean isNetworkConnectionAvailable() {
         return isNetworkConnectionAvailable;
     }
+
 }

@@ -22,9 +22,11 @@ import com.android.shouldiwalk.activities.fragments.DateTimePickerFragment;
 import com.android.shouldiwalk.activities.fragments.MapLocationChooserFragment;
 import com.android.shouldiwalk.activities.fragments.MeanOfTransportFragment;
 import com.android.shouldiwalk.activities.fragments.ShouldIWalkFragment;
+import com.android.shouldiwalk.activities.fragments.WeatherFragment;
 import com.android.shouldiwalk.core.AddTripDataDefaults;
 import com.android.shouldiwalk.core.AddTripDataInstanceParcelable;
 import com.android.shouldiwalk.core.model.MeanOfTransport;
+import com.android.shouldiwalk.core.model.WeatherStatus;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
@@ -34,15 +36,17 @@ import static com.android.shouldiwalk.R.id.tabsHorizontalView;
 public class AddTripDataActivity extends ShouldIWalkActivity implements
         MapLocationChooserFragment.OnMapMarkerLocationChangeListener,
         DateTimePickerFragment.OnDateChangeListener,
-        MeanOfTransportFragment.OnMeanOfTransportChangeListener {
+        MeanOfTransportFragment.OnMeanOfTransportChangeListener,
+        WeatherFragment.OnWeatherChangeListener {
 
     private static final String CLASS_TAG = AddTripDataActivity.class.getCanonicalName() + "-TAG";
 
-    public static final String START_LOCATION_FRAGMENT_ID = "StartLocation";
-    public static final String END_LOCATION_FRAGMENT_ID = "EndLocation";
-    public static final String START_DATE_FRAGMENT_ID = "StartDate";
-    public static final String END_DATE_FRAGMENT_ID = "EndDate";
-    public static final String MEAN_OF_TRANSPORT_FRAGMENT_ID = "MeanOfTransport";
+    public static final String START_LOCATION_FRAGMENT_ID = "StartLocationFragment";
+    public static final String END_LOCATION_FRAGMENT_ID = "EndLocationFragment";
+    public static final String START_DATE_FRAGMENT_ID = "StartDateFragment";
+    public static final String END_DATE_FRAGMENT_ID = "EndDateFragment";
+    public static final String MEAN_OF_TRANSPORT_FRAGMENT_ID = "MeanOfTransportFragment";
+    public static final String WEATHER_FRAGMENT_ID = "WeatherFragment";
 
     private TripDataFragmentPageAdapter tripDataFragmentPageAdapter;
     private ViewPager tripDataViewPager;
@@ -117,6 +121,12 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
         }
         if (savedInstanceData.getMeanOfTransport() == null) {
             savedInstanceData.setMeanOfTransport(MeanOfTransport.Walk);
+        }
+        if (savedInstanceData.getTemperature() == 0) {
+            savedInstanceData.setTemperature(15);
+        }
+        if (savedInstanceData.getWeatherStatus() == null) {
+            savedInstanceData.setWeatherStatus(WeatherStatus.Sunny);
         }
 
         return savedInstanceData;
@@ -299,6 +309,30 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
         }
     }
 
+    @Override
+    public void onTemperatureChange(String sourceFragmentId, int temperature) {
+        Log.d(CLASS_TAG, String.format("Received new temperature {%d} from {%s}", temperature, sourceFragmentId));
+        switch (sourceFragmentId) {
+            case WEATHER_FRAGMENT_ID:
+                instanceData.setTemperature(temperature);
+                break;
+            default:
+                throw new UnsupportedOperationException("Switch branch not implemented!");
+        }
+    }
+
+    @Override
+    public void onWeatherStatusChange(String sourceFragmentId, WeatherStatus weatherStatus) {
+        Log.d(CLASS_TAG, String.format("Received new weather status {%s} from {%s}", weatherStatus, sourceFragmentId));
+        switch (sourceFragmentId) {
+            case WEATHER_FRAGMENT_ID:
+                instanceData.setWeatherStatus(weatherStatus);
+                break;
+            default:
+                throw new UnsupportedOperationException("Switch branch not implemented!");
+        }
+    }
+
     public static class TripDataFragmentPageAdapter extends FragmentPagerAdapter {
         private final AddTripDataActivity addTripDataActivity;
 
@@ -312,6 +346,7 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
         private DateTimePickerFragment startDateTimePickerFragment;
         private DateTimePickerFragment endDateTimePickerFragment;
         private MeanOfTransportFragment meanOfTransportFragment;
+        private WeatherFragment weatherFragment;
 
         TripDataFragmentPageAdapter(AddTripDataActivity addTripDataActivity, FragmentManager fm) {
             super(fm);
@@ -329,6 +364,12 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
 
             this.meanOfTransportFragment = (MeanOfTransportFragment) initializeMeanOfTransportFragment(
                     addTripDataActivity.instanceData.getMeanOfTransport(), MEAN_OF_TRANSPORT_FRAGMENT_ID);
+
+            this.weatherFragment = (WeatherFragment) initializeWeatherFragment(
+                    addTripDataActivity.instanceData.getTemperature(),
+                    addTripDataActivity.instanceData.getWeatherStatus(),
+                    WEATHER_FRAGMENT_ID
+            );
         }
 
 
@@ -351,6 +392,8 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
                     return endDateTimePickerFragment;
                 case R.id.gotoMeanOfTransportScreenButton:
                     return meanOfTransportFragment;
+                case R.id.gotoWeatherScreenButton:
+                    return weatherFragment;
                 default:
                     return new DefaultFragmentForTest();
             }
@@ -415,6 +458,24 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
 
             meanOfTransportFragment.setArguments(fragmentArguments);
             return meanOfTransportFragment;
+        }
+
+        private Fragment initializeWeatherFragment(int temperature, WeatherStatus weatherStatus, String fragmentId) {
+            Fragment weatherFragment = new WeatherFragment();
+
+            Bundle fragmentArguments = new Bundle();
+            fragmentArguments.putString(
+                    WeatherFragment.FRAGMENT_ID,
+                    fragmentId);
+            fragmentArguments.putInt(
+                    WeatherFragment.INITIAL_TEMPERATURE,
+                    temperature);
+            fragmentArguments.putString(
+                    WeatherFragment.INITIAL_WEATHER_STATUS,
+                    weatherStatus.toString());
+
+            weatherFragment.setArguments(fragmentArguments);
+            return weatherFragment;
         }
     }
 

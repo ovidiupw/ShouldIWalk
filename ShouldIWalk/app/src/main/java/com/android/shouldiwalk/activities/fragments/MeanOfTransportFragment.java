@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 
 import com.android.shouldiwalk.R;
 import com.android.shouldiwalk.core.MeanOfTransportArrayAdapter;
@@ -84,7 +85,6 @@ public class MeanOfTransportFragment extends ShouldIWalkFragment {
         meanOfTransportListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 meanOfTransportArrayAdapter.setActiveItemPosition(position);
                 meanOfTransportArrayAdapter.notifyDataSetChanged();
 

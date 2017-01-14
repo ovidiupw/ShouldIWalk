@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.android.shouldiwalk.R;
@@ -46,10 +47,14 @@ public class MeanOfTransportArrayAdapter extends ArrayAdapter<MeanOfTransport> {
             meanOfTransportTitleView = (TextView) rootItemView.getTag();
         }
 
+        RadioButton radioButton = (RadioButton) rootItemView.findViewById(R.id.meanOfTransportRadioButton);
+
         if (activeItemPosition != null && position == activeItemPosition) {
             rootItemView.setBackgroundColor(getContext().getColor(R.color.colorPrimary));
+            radioButton.setChecked(true);
         } else {
             rootItemView.setBackgroundColor(getContext().getColor(R.color.cardColor));
+            radioButton.setChecked(false);
         }
 
         MeanOfTransport meanOfTransport = getItem(position);

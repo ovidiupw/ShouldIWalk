@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/StandardPadding"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/card_shape"
+            style="@style/StandardPadding"
+            android:layout_marginBottom="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="20dp">
+
+            <TextView
+                style="@style/CardTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="@string/temperatureSeekbarTitle"/>
+
+            <TextView
+                style="@style/CardSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="@string/temperatureSeekbarSubtitle"/>
+
+            <SeekBar
+                android:id="@+id/temperatureSeekbar"
+                style="@style/Widget.AppCompat.SeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/weather_seekbar_background"
+                android:max="140"
+                android:progress="1"
+                android:progressTint="@color/appBackground"
+                android:progressTintMode="src_in"
+                android:thumbTint="@color/listItemTitleColorDark"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/temperatureInCelsiusTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="27"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_centerInParent="true"/>
+                <TextView
+                    android:layout_toEndOf="@id/temperatureInCelsiusTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/temperatureMeasureUnitText"
+                    android:layout_centerInParent="true"
+                    android:textAlignment="textEnd"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/card_shape"
+            style="@style/StandardPadding"
+            android:paddingTop="15dp"
+            android:paddingBottom="20dp">
+
+            <TextView
+                style="@style/CardTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="@string/weatherStatusListTitle"/>
+
+            <TextView
+                style="@style/CardSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="@string/weatherStatusListSubtitle"/>
+
+            <TextView
+                android:id="@+id/weatherConditionDisplayTextView"
+                style="@style/StandardPadding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="Sample Weather condition"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:background="@drawable/card_shape"
+                android:backgroundTint="#b3d58a"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/weatherFooterLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical">
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
+

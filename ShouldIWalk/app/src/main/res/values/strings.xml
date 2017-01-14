@@ -32,4 +32,15 @@
     <string name="datePickerChooseDateButtonText">Choose date</string>
     <string name="datePickerChooseTimeButtonText">Choose time</string>
     <string name="meanOfTransportImageButtonDescription">More information button</string>
+    <string name="temperatureSeekbarTitle">Temperature</string>
+    <string name="temperatureSeekbarSubtitle">Choose an approximate value for the temperature you felt across the trip.</string>
+    <string name="temperatureMeasureUnitText">Degrees Celsius</string>
+    <string name="datetimePickerCardSubtitle">You can update the date to the one you choose by clicking either of the buttons below.</string>
+    <string name="weatherStatusListTitle">Weather conditions</string>
+    <string name="weatherStatusListSubtitle">
+        Choose the approximate weather conditions you encounter throughout your trip. Click the weather status
+        below to browse other weather conditions.
+    </string>
+    <string name="weatherStatusesAlertDialogTitle">Weather statuses</string>
+    <string name="dismissButtonOkText">Done</string>
 </resources>
