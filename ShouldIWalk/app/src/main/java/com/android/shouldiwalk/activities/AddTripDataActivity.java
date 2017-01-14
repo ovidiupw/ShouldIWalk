@@ -19,6 +19,7 @@ import android.widget.HorizontalScrollView;
 
 import com.android.shouldiwalk.R;
 import com.android.shouldiwalk.activities.fragments.DateTimePickerFragment;
+import com.android.shouldiwalk.activities.fragments.DiscreteRateFragment;
 import com.android.shouldiwalk.activities.fragments.MapLocationChooserFragment;
 import com.android.shouldiwalk.activities.fragments.MeanOfTransportFragment;
 import com.android.shouldiwalk.activities.fragments.ShouldIWalkFragment;
@@ -37,7 +38,8 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
         MapLocationChooserFragment.OnMapMarkerLocationChangeListener,
         DateTimePickerFragment.OnDateChangeListener,
         MeanOfTransportFragment.OnMeanOfTransportChangeListener,
-        WeatherFragment.OnWeatherChangeListener {
+        WeatherFragment.OnWeatherChangeListener,
+        DiscreteRateFragment.OnDiscreteRateSeekBarChangeListener {
 
     private static final String CLASS_TAG = AddTripDataActivity.class.getCanonicalName() + "-TAG";
 
@@ -47,6 +49,10 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
     public static final String END_DATE_FRAGMENT_ID = "EndDateFragment";
     public static final String MEAN_OF_TRANSPORT_FRAGMENT_ID = "MeanOfTransportFragment";
     public static final String WEATHER_FRAGMENT_ID = "WeatherFragment";
+    public static final String TRAFFIC_FRAGMENT_ID = "TrafficFragment";
+    public static final String EFFORT_FRAGMENT_ID = "EffortFragment";
+    public static final String RUSH_FRAGMENT_ID = "RushFragment";
+    public static final String SATISFACTION_FRAGMENT_ID = "SatisfactionFragment";
 
     private TripDataFragmentPageAdapter tripDataFragmentPageAdapter;
     private ViewPager tripDataViewPager;
@@ -127,6 +133,18 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
         }
         if (savedInstanceData.getWeatherStatus() == null) {
             savedInstanceData.setWeatherStatus(WeatherStatus.Sunny);
+        }
+        if (savedInstanceData.getTrafficLevel() == 0) {
+            savedInstanceData.setTrafficLevel(2);
+        }
+        if (savedInstanceData.getEffortLevel() == 0) {
+            savedInstanceData.setEffortLevel(2);
+        }
+        if (savedInstanceData.getRushLevel() == 0) {
+            savedInstanceData.setRushLevel(2);
+        }
+        if (savedInstanceData.getSatisfactionLevel() == 0) {
+            savedInstanceData.setSatisfactionLevel(2);
         }
 
         return savedInstanceData;
@@ -333,6 +351,31 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
         }
     }
 
+    @Override
+    public void onSeekBarChange(String sourceFragmentId, int seekBarPosition) {
+        Log.d(CLASS_TAG, String.format("Received seekbar position {%d} from {%s}", seekBarPosition, sourceFragmentId));
+        if (sourceFragmentId == null) {
+            return;
+        }
+
+        switch (sourceFragmentId) {
+            case TRAFFIC_FRAGMENT_ID:
+                instanceData.setTrafficLevel(seekBarPosition);
+                break;
+            case EFFORT_FRAGMENT_ID:
+                instanceData.setEffortLevel(seekBarPosition);
+                break;
+            case RUSH_FRAGMENT_ID:
+                instanceData.setRushLevel(seekBarPosition);
+                break;
+            case SATISFACTION_FRAGMENT_ID:
+                instanceData.setSatisfactionLevel(seekBarPosition);
+                break;
+            default:
+                throw new UnsupportedOperationException("Switch branch not implemented!");
+        }
+    }
+
     public static class TripDataFragmentPageAdapter extends FragmentPagerAdapter {
         private final AddTripDataActivity addTripDataActivity;
 
@@ -347,6 +390,10 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
         private DateTimePickerFragment endDateTimePickerFragment;
         private MeanOfTransportFragment meanOfTransportFragment;
         private WeatherFragment weatherFragment;
+        private DiscreteRateFragment trafficFragment;
+        private DiscreteRateFragment effortFragment;
+        private DiscreteRateFragment rushFragment;
+        private DiscreteRateFragment satisfactionFragment;
 
         TripDataFragmentPageAdapter(AddTripDataActivity addTripDataActivity, FragmentManager fm) {
             super(fm);
@@ -370,8 +417,16 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
                     addTripDataActivity.instanceData.getWeatherStatus(),
                     WEATHER_FRAGMENT_ID
             );
-        }
 
+            this.trafficFragment = (DiscreteRateFragment) initializeTrafficFragment(
+                    addTripDataActivity.instanceData.getTrafficLevel(), 5, TRAFFIC_FRAGMENT_ID);
+            this.effortFragment = (DiscreteRateFragment) initializeEffortFragment(
+                    addTripDataActivity.instanceData.getEffortLevel(), 5, EFFORT_FRAGMENT_ID);
+            this.rushFragment = (DiscreteRateFragment) initializeRushFragment(
+                    addTripDataActivity.instanceData.getRushLevel(), 5, RUSH_FRAGMENT_ID);
+            this.satisfactionFragment = (DiscreteRateFragment) initializeSatisfactionFragment(
+                    addTripDataActivity.instanceData.getSatisfactionLevel(), 5, SATISFACTION_FRAGMENT_ID);
+        }
 
 
         @Override
@@ -394,6 +449,14 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
                     return meanOfTransportFragment;
                 case R.id.gotoWeatherScreenButton:
                     return weatherFragment;
+                case R.id.gotoTrafficLevelScreenButton:
+                    return trafficFragment;
+                case R.id.gotoEffortLevelScreenButton:
+                    return effortFragment;
+                case R.id.gotoRushLevelScreenButton:
+                    return rushFragment;
+                case R.id.gotoSatisfactionLevelScreenButton:
+                    return satisfactionFragment;
                 default:
                     return new DefaultFragmentForTest();
             }
@@ -476,6 +539,121 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
 
             weatherFragment.setArguments(fragmentArguments);
             return weatherFragment;
+        }
+
+        private Fragment initializeTrafficFragment(int trafficLevel, int maxTrafficLevel, String fragmentId) {
+            Fragment trafficFragment = new DiscreteRateFragment();
+
+            Bundle fragmentArguments = new Bundle();
+            fragmentArguments.putString(
+                    DiscreteRateFragment.FRAGMENT_ID,
+                    fragmentId);
+            fragmentArguments.putInt(
+                    DiscreteRateFragment.INITIAL_SEEKBAR_VALUE,
+                    trafficLevel);
+            fragmentArguments.putInt(
+                    DiscreteRateFragment.MAX_SEEKBAR_VALUE,
+                    maxTrafficLevel);
+            fragmentArguments.putString(
+                    DiscreteRateFragment.SEEKBAR_TITLE,
+                    "Traffic level");
+            fragmentArguments.putString(
+                    DiscreteRateFragment.SEEKBAR_SUBTITLE,
+                    "Slide your finger on the seek-bar below to adjust how heavy the traffic was during your trip. " +
+                            "Higher values mean more intensive traffic. The highest value should only be used to " +
+                            "illustrate severe traffic blocks and long wait times during the trip.");
+            fragmentArguments.putString(
+                    DiscreteRateFragment.SEEKBAR_UNIT_DESCRIPTION,
+                    "Traffic Pain Units");
+
+            trafficFragment.setArguments(fragmentArguments);
+            return trafficFragment;
+        }
+
+        private Fragment initializeEffortFragment(int effortLevel, int maxEffortLevel, String fragmentId) {
+            Fragment effortFragment = new DiscreteRateFragment();
+
+            Bundle fragmentArguments = new Bundle();
+            fragmentArguments.putString(
+                    DiscreteRateFragment.FRAGMENT_ID,
+                    fragmentId);
+            fragmentArguments.putInt(
+                    DiscreteRateFragment.INITIAL_SEEKBAR_VALUE,
+                    effortLevel);
+            fragmentArguments.putInt(
+                    DiscreteRateFragment.MAX_SEEKBAR_VALUE,
+                    maxEffortLevel);
+            fragmentArguments.putString(
+                    DiscreteRateFragment.SEEKBAR_TITLE,
+                    "Effort level");
+            fragmentArguments.putString(
+                    DiscreteRateFragment.SEEKBAR_SUBTITLE,
+                    "Slide your finger on the seek-bar below to adjust how much effort you put in to make this trip. " +
+                            "Higher values mean more effort.");
+            fragmentArguments.putString(
+                    DiscreteRateFragment.SEEKBAR_UNIT_DESCRIPTION,
+                    "Effort Units");
+
+            effortFragment.setArguments(fragmentArguments);
+            return effortFragment;
+        }
+
+        private Fragment initializeRushFragment(int rushLevel, int maxRushLevel, String fragmentId) {
+            Fragment effortFragment = new DiscreteRateFragment();
+
+            Bundle fragmentArguments = new Bundle();
+            fragmentArguments.putString(
+                    DiscreteRateFragment.FRAGMENT_ID,
+                    fragmentId);
+            fragmentArguments.putInt(
+                    DiscreteRateFragment.INITIAL_SEEKBAR_VALUE,
+                    rushLevel);
+            fragmentArguments.putInt(
+                    DiscreteRateFragment.MAX_SEEKBAR_VALUE,
+                    maxRushLevel);
+            fragmentArguments.putString(
+                    DiscreteRateFragment.SEEKBAR_TITLE,
+                    "Rush level");
+            fragmentArguments.putString(
+                    DiscreteRateFragment.SEEKBAR_SUBTITLE,
+                    "Slide your finger on the seek-bar below to adjust how much you were in a rush during the trip. " +
+                            "Higher values mean higher incentives to get to the destination as fast as possible.");
+            fragmentArguments.putString(
+                    DiscreteRateFragment.SEEKBAR_UNIT_DESCRIPTION,
+                    "Rush Points");
+
+            effortFragment.setArguments(fragmentArguments);
+            return effortFragment;
+        }
+
+        private Fragment initializeSatisfactionFragment(
+                int satisfactionLevel, int maxSatisfactionLevel, String fragmentId) {
+
+            Fragment effortFragment = new DiscreteRateFragment();
+
+            Bundle fragmentArguments = new Bundle();
+            fragmentArguments.putString(
+                    DiscreteRateFragment.FRAGMENT_ID,
+                    fragmentId);
+            fragmentArguments.putInt(
+                    DiscreteRateFragment.INITIAL_SEEKBAR_VALUE,
+                    satisfactionLevel);
+            fragmentArguments.putInt(
+                    DiscreteRateFragment.MAX_SEEKBAR_VALUE,
+                    maxSatisfactionLevel);
+            fragmentArguments.putString(
+                    DiscreteRateFragment.SEEKBAR_TITLE,
+                    "Overall satisfaction level");
+            fragmentArguments.putString(
+                    DiscreteRateFragment.SEEKBAR_SUBTITLE,
+                    "Slide your finger on the seek-bar below to adjust how satisfied you were with making the trip. " +
+                            "Higher values mean that you were more satisfied with the trip.");
+            fragmentArguments.putString(
+                    DiscreteRateFragment.SEEKBAR_UNIT_DESCRIPTION,
+                    "Yay Points");
+
+            effortFragment.setArguments(fragmentArguments);
+            return effortFragment;
         }
     }
 

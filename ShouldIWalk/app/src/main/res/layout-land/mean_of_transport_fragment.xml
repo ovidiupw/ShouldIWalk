@@ -6,28 +6,26 @@
               android:background="@color/appBackground"
               android:orientation="vertical">
 
-    <TableLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:stretchColumns="0">
+        android:layout_height="match_parent">
 
-        <TableRow>
+        <ListView
+            android:id="@+id/meanOfTransportListView"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/invisibleFloatingButton"
+            android:layout_marginEnd="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5.0sp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5.0sp"/>
 
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/meanOfTransportListView"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="5.0sp"
-                android:layout_margin="5.0sp"
-                android:layout_marginEnd="20dp"/>
+        <Button
+            android:id="@+id/invisibleFloatingButton"
+            style="@style/InvisibleRoundFloatingButton"/>
 
-            <Button
-                style="@style/RoundFloatingButton"
-                android:visibility="invisible"/>
-        </TableRow>
-
-    </TableLayout>
+    </RelativeLayout>
 
 
 </LinearLayout>

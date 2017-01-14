@@ -51,9 +51,11 @@ public class MeanOfTransportArrayAdapter extends ArrayAdapter<MeanOfTransport> {
 
         if (activeItemPosition != null && position == activeItemPosition) {
             rootItemView.setBackgroundColor(getContext().getColor(R.color.colorPrimary));
+            meanOfTransportTitleView.setTextColor(getContext().getColor(R.color.listItemTitleColorLight));
             radioButton.setChecked(true);
         } else {
             rootItemView.setBackgroundColor(getContext().getColor(R.color.cardColor));
+            meanOfTransportTitleView.setTextColor(getContext().getColor(R.color.listItemTitleColorDark));
             radioButton.setChecked(false);
         }
 

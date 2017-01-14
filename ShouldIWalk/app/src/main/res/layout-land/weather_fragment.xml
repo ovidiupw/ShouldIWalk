@@ -6,15 +6,16 @@
               android:background="@color/appBackground"
               android:orientation="vertical">
 
-    <TableLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:stretchColumns="1">
+        android:layout_height="match_parent">
 
-        <TableRow>
             <ScrollView
                 style="@style/StandardPadding"
-                android:layout_width="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@id/invisibleFloatingButton"
+                android:layout_marginEnd="10dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -22,11 +23,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingTop="15dp"
                     android:paddingBottom="20dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:background="@drawable/card_shape"
@@ -132,11 +132,10 @@
             </ScrollView>
 
             <Button
-                style="@style/RoundFloatingButton"
-                android:visibility="invisible"/>
-        </TableRow>
+                android:id="@+id/invisibleFloatingButton"
+                style="@style/InvisibleRoundFloatingButton"/>
 
-    </TableLayout>
+    </RelativeLayout>
 
 
 </LinearLayout>

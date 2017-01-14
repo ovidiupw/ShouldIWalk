@@ -5,6 +5,7 @@ android {
     buildToolsVersion "24.0.3"
     defaultConfig {
         applicationId "com.android.shouldiwalk"
+        multiDexEnabled  true
         minSdkVersion 22
         targetSdkVersion 23
         versionCode 1

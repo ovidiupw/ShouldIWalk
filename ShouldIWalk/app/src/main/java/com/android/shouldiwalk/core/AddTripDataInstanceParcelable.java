@@ -22,6 +22,10 @@ public class AddTripDataInstanceParcelable implements Parcelable {
     private Date startDate;
     private Date endDate;
     private MeanOfTransport meanOfTransport;
+    private int trafficLevel;
+    private int effortLevel;
+    private int rushLevel;
+    private int satisfactionLevel;
 
     private boolean errorOnDeserializing;
     private int temperature;
@@ -37,6 +41,10 @@ public class AddTripDataInstanceParcelable implements Parcelable {
 
     protected AddTripDataInstanceParcelable(Parcel in) {
         try {
+            this.satisfactionLevel = in.readInt();
+            this.rushLevel = in.readInt();
+            this.effortLevel = in.readInt();
+            this.trafficLevel = in.readInt();
             this.temperature = in.readInt();
             this.weatherStatus = WeatherStatus.valueOf(in.readString());
             this.meanOfTransport = MeanOfTransport.valueOf(in.readString());
@@ -63,6 +71,10 @@ public class AddTripDataInstanceParcelable implements Parcelable {
         dest.writeString(meanOfTransport.toString());
         dest.writeString(weatherStatus.toString());
         dest.writeInt(temperature);
+        dest.writeInt(trafficLevel);
+        dest.writeInt(effortLevel);
+        dest.writeInt(rushLevel);
+        dest.writeInt(satisfactionLevel);
     }
 
     @Override
@@ -109,6 +121,30 @@ public class AddTripDataInstanceParcelable implements Parcelable {
         this.activeScreenIndex = activeScreenIndex;
     }
 
+    public int getEffortLevel() {
+        return effortLevel;
+    }
+
+    public void setEffortLevel(int effortLevel) {
+        this.effortLevel = effortLevel;
+    }
+
+    public int getRushLevel() {
+        return rushLevel;
+    }
+
+    public void setRushLevel(int rushLevel) {
+        this.rushLevel = rushLevel;
+    }
+
+    public int getSatisfactionLevel() {
+        return satisfactionLevel;
+    }
+
+    public void setSatisfactionLevel(int satisfactionLevel) {
+        this.satisfactionLevel = satisfactionLevel;
+    }
+
     public Date getStartDate() {
         return startDate;
     }
@@ -145,6 +181,14 @@ public class AddTripDataInstanceParcelable implements Parcelable {
         this.temperature = temperature;
     }
 
+    public int getTrafficLevel() {
+        return trafficLevel;
+    }
+
+    public void setTrafficLevel(int trafficLevel) {
+        this.trafficLevel = trafficLevel;
+    }
+
     public void setWeatherStatus(WeatherStatus weatherStatus) {
         this.weatherStatus = weatherStatus;
     }
@@ -155,6 +199,10 @@ public class AddTripDataInstanceParcelable implements Parcelable {
         if (o == null || getClass() != o.getClass()) return false;
         AddTripDataInstanceParcelable that = (AddTripDataInstanceParcelable) o;
         return activeScreenIndex == that.activeScreenIndex &&
+                trafficLevel == that.trafficLevel &&
+                effortLevel == that.effortLevel &&
+                rushLevel == that.rushLevel &&
+                satisfactionLevel == that.satisfactionLevel &&
                 errorOnDeserializing == that.errorOnDeserializing &&
                 temperature == that.temperature &&
                 Objects.equals(startLocation, that.startLocation) &&
@@ -167,7 +215,7 @@ public class AddTripDataInstanceParcelable implements Parcelable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(activeScreenIndex, startLocation, endLocation, startDate, endDate, meanOfTransport, errorOnDeserializing, temperature, weatherStatus);
+        return Objects.hash(activeScreenIndex, startLocation, endLocation, startDate, endDate, meanOfTransport, trafficLevel, effortLevel, rushLevel, satisfactionLevel, errorOnDeserializing, temperature, weatherStatus);
     }
 
     @Override
@@ -179,6 +227,10 @@ public class AddTripDataInstanceParcelable implements Parcelable {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", meanOfTransport=" + meanOfTransport +
+                ", trafficLevel=" + trafficLevel +
+                ", effortLevel=" + effortLevel +
+                ", rushLevel=" + rushLevel +
+                ", satisfactionLevel=" + satisfactionLevel +
                 ", errorOnDeserializing=" + errorOnDeserializing +
                 ", temperature=" + temperature +
                 ", weatherStatus=" + weatherStatus +

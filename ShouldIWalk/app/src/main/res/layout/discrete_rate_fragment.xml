@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                style="@style/StandardPadding"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            style="@style/StandardPadding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/card_shape">
+
+            <LinearLayout
+                android:id="@+id/seekBarTextLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="10dp">
+                <TextView
+                    android:id="@+id/discreteSeekBarTitle"
+                    style="@style/CardTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sample title"/>
+
+                <ImageView
+                    android:id="@+id/lineSeparator1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/horizontalSeparatorColor"
+                    android:contentDescription="@string/lineSeparatorContentDescription"/>
+
+                <TextView
+                    android:id="@+id/discreteSeekBarSubTitle"
+                    style="@style/CardSubtitle"
+                    android:textSize="14sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sample subtitle...."
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <SeekBar
+                android:id="@+id/discreteSeekBar"
+                style="@style/Widget.AppCompat.SeekBar.Discrete"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:layout_below="@+id/seekBarTextLinearLayout"
+                android:max="10"
+                android:progress="3"
+                android:maxHeight="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/discreteSeekBarProgressBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="3"
+                android:textSize="25sp"
+                android:layout_below="@id/discreteSeekBar"/>
+
+            <TextView
+                android:id="@+id/discreteSeekBarProgressBoxDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="Unit description"
+                android:textAlignment="textEnd"
+                android:textSize="16sp"
+                android:layout_toEndOf="@id/discreteSeekBarProgressBox"
+                android:layout_below="@id/discreteSeekBar"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
+        </RelativeLayout>
+    </ScrollView>
+
+
+
+</RelativeLayout>
