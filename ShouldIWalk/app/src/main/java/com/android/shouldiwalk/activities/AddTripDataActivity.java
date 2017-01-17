@@ -1,6 +1,8 @@
 package com.android.shouldiwalk.activities;
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
@@ -53,6 +55,7 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
     public static final String EFFORT_FRAGMENT_ID = "EffortFragment";
     public static final String RUSH_FRAGMENT_ID = "RushFragment";
     public static final String SATISFACTION_FRAGMENT_ID = "SatisfactionFragment";
+    private static final long ONE_HOUR_IN_MILLIS = 60 * 60 * 1000;
 
     private TripDataFragmentPageAdapter tripDataFragmentPageAdapter;
     private ViewPager tripDataViewPager;
@@ -122,8 +125,11 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
         if (savedInstanceData.getStartDate() == null) {
             savedInstanceData.setStartDate(AddTripDataDefaults.START_DATE);
         }
+
         if (savedInstanceData.getEndDate() == null) {
-            savedInstanceData.setEndDate(AddTripDataDefaults.END_DATE);
+            Date tripEndDate = new Date();
+            tripEndDate.setTime(AddTripDataDefaults.START_DATE.getTime() + ONE_HOUR_IN_MILLIS);
+            savedInstanceData.setEndDate(tripEndDate);
         }
         if (savedInstanceData.getMeanOfTransport() == null) {
             savedInstanceData.setMeanOfTransport(MeanOfTransport.Walk);
@@ -269,7 +275,21 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
             nextScreenButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO close this activity and pass the resulting tripData to mainActivity
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra(AddTripDataInstanceParcelable.START_LOCATION, instanceData.getStartLocation());
+                    returnIntent.putExtra(AddTripDataInstanceParcelable.END_LOCATION, instanceData.getEndLocation());
+                    returnIntent.putExtra(AddTripDataInstanceParcelable.START_DATE, instanceData.getStartDate());
+                    returnIntent.putExtra(AddTripDataInstanceParcelable.END_DATE, instanceData.getEndDate());
+                    returnIntent.putExtra(AddTripDataInstanceParcelable.WEATHER_STATUS, instanceData.getWeatherStatus().toString());
+                    returnIntent.putExtra(AddTripDataInstanceParcelable.TEMPERATURE, instanceData.getTemperature());
+                    returnIntent.putExtra(AddTripDataInstanceParcelable.MEAN_OF_TRANSPORT, instanceData.getMeanOfTransport().toString());
+                    returnIntent.putExtra(AddTripDataInstanceParcelable.EFFORT_LEVEL, instanceData.getEffortLevel());
+                    returnIntent.putExtra(AddTripDataInstanceParcelable.TRAFFIC_LEVEL, instanceData.getTrafficLevel());
+                    returnIntent.putExtra(AddTripDataInstanceParcelable.RUSH_LEVEL, instanceData.getRushLevel());
+                    returnIntent.putExtra(AddTripDataInstanceParcelable.SATISFACTION_LEVEL, instanceData.getSatisfactionLevel());
+
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    finish();
                 }
             });
         } else {
@@ -458,7 +478,7 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
                 case R.id.gotoSatisfactionLevelScreenButton:
                     return satisfactionFragment;
                 default:
-                    return new DefaultFragmentForTest();
+                    throw new UnsupportedOperationException("Fragment not mapped in switch case!");
             }
 
         }
@@ -654,20 +674,6 @@ public class AddTripDataActivity extends ShouldIWalkActivity implements
 
             effortFragment.setArguments(fragmentArguments);
             return effortFragment;
-        }
-    }
-
-    public static class DefaultFragmentForTest extends ShouldIWalkFragment {
-
-        @Override
-        public String getFragmentId() {
-            return "DefaultFragmentForTest";
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.dummy_fragment, container, false);
         }
     }
 

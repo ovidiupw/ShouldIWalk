@@ -62,8 +62,12 @@
                     android:layout_height="50dp"
                     android:layout_centerInParent="true"
                     android:layout_below="@+id/seekBarTextLinearLayout"
+                    android:progressDrawable="@drawable/grey_seekbar_drawable"
+                    android:thumb="@drawable/grey_seekbar_thumb"
                     android:max="10"
                     android:progress="3"
+                    android:scrollbarSize="50dip"
+                    android:minHeight="10dp"
                     android:maxHeight="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"/>

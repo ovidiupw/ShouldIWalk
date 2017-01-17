@@ -99,8 +99,8 @@ public class TripDataSqliteHelper implements TripDataDBHelper {
                     tripData.setId(cursor.getInt(ID));
                     tripData.setStartLocationId(cursor.getInt(START_LOCATION_ID));
                     tripData.setEndLocationId(cursor.getInt(END_LOCATION_ID));
-                    tripData.setStartMillis(cursor.getInt(START_MILLIS));
-                    tripData.setEndMillis(cursor.getInt(END_MILLIS));
+                    tripData.setStartMillis(cursor.getLong(START_MILLIS));
+                    tripData.setEndMillis(cursor.getLong(END_MILLIS));
                     tripData.setWeatherStatus(WeatherStatus.valueOf(cursor.getString(WEATHER_STATUS)));
                     tripData.setTemperatureCelsius(cursor.getInt(TEMPERATURE_CELSIUS));
                     tripData.setTrafficLevel(cursor.getInt(TRAFFIC_LEVEL));

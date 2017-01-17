@@ -34,9 +34,7 @@ Architecture:
 
 TODO:
 - Add tests 
-- Implement a stack  used for going back inside record trip data activity (should have a maximum size; when size reached, oldest visited screens are eliminated to maintain constant size)
-- Finish gmaps location chooser
-- Add a backwards button in the Add Trip Record screen
+- Finish gmaps location chooser (remaining: add a search box)
 - Check for network connection when starting the app
 	- advise against non-networked use
 	- make sure application works as expected even with no network

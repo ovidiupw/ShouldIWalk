@@ -16,20 +16,32 @@ public class AddTripDataInstanceParcelable implements Parcelable {
 
     private static final String CLASS_TAG = AddTripDataInstanceParcelable.class.getCanonicalName() + "-TAG";
 
+    public static final String START_LOCATION = "StartLocation";
+    public static final String END_LOCATION = "EndLocation";
+    public static final String START_DATE = "StartDate";
+    public static final String END_DATE = "EndDate";
+    public static final String WEATHER_STATUS = "WeatherStatus";
+    public static final String MEAN_OF_TRANSPORT = "MeanOfTransport";
+    public static final String TEMPERATURE = "Temperature";
+    public static final String TRAFFIC_LEVEL = "TrafficLevel";
+    public static final String EFFORT_LEVEL = "EffortLevel";
+    public static final String RUSH_LEVEL = "RushLevel";
+    public static final String SATISFACTION_LEVEL = "SatisfactionLevel";
+
     private int activeScreenIndex;
     private LatLng startLocation;
     private LatLng endLocation;
     private Date startDate;
     private Date endDate;
+    private WeatherStatus weatherStatus;
     private MeanOfTransport meanOfTransport;
+    private int temperature;
     private int trafficLevel;
     private int effortLevel;
     private int rushLevel;
     private int satisfactionLevel;
 
     private boolean errorOnDeserializing;
-    private int temperature;
-    private WeatherStatus weatherStatus;
 
     public static String getIdentifier() {
         return "AddTripDataInstanceParcelable";
@@ -58,14 +70,13 @@ public class AddTripDataInstanceParcelable implements Parcelable {
             Log.e(CLASS_TAG, e.getMessage());
             this.errorOnDeserializing = true;
         }
-
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(activeScreenIndex);
-        dest.writeParcelable(startLocation, flags);
-        dest.writeParcelable(endLocation, flags);
+        dest.writeParcelable(startLocation, 0);
+        dest.writeParcelable(endLocation, 0);
         dest.writeSerializable(startDate);
         dest.writeSerializable(endDate);
         dest.writeString(meanOfTransport.toString());

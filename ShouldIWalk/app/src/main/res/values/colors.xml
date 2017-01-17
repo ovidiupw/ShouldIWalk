@@ -3,9 +3,10 @@
     <color name="colorPrimary">#8BC34A</color>
     <color name="colorPrimaryAccent">#7EB63C</color>
     <color name="colorPrimaryDark">#33691E</color>
-    <color name="colorAccent">#CCFF90</color>
+    <color name="colorAccent">#8BC34A</color>
     <color name="appBackground">#EEEEEE</color>
     <color name="activeTab">#BBBBBB</color>
+    <color name="seekbarDrawableColor">#EEEEEE</color>
     <color name="cardColor">#FFFFFF</color>
     <color name="horizontalSeparatorColor">#EEEEEE</color>
     <color name="horizontalSeparatorColorAccent">#CCCCCC</color>

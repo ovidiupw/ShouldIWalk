@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ShouldIWalk</string>
     <string name="dbQueriesResource">database/db-queries.xml</string>
-    <string name="firstTimeWelcomeText">This is the welcome description. Enter some interesting text here</string>
+    <string name="firstTimeWelcomeText">Welcome to ShouldIWalk! To take a tour of the app, press the \"Learn More\" button!</string>
     <string name="learnMoreFirstTimeWelcomeButtonText">Learn more</string>
     <string name="dismissFirstTimeWelcomeButtonText">Dismiss</string>
     <string name="firstPredictionAddEventButtonText">Record trip data</string>
@@ -9,7 +9,7 @@
     <string name="progressToFirstPredictionCardTitle">Progress to first prediction</string>
     <string name="progressToFirstPredictionCardInProgressSubtitle">You still have to add %1$d more events before we can predict anything.</string>
     <string name="lineSeparatorContentDescription">A line that visually separates user interface elements</string>
-    <string name="progressToFirstPredictionCardDoneSubtitle">Your first prediction is ready!</string>
+    <string name="progressToFirstPredictionCardDoneSubtitle">We can now predict something for you!</string>
     <string name="add_trip_data_activity_title">Record trip data</string>
     <string name="gotoStartLocationScreenButtonText">Start location</string>
     <string name="gotoEndLocationScreenButtonText">End location</string>
@@ -43,4 +43,6 @@
     </string>
     <string name="weatherStatusesAlertDialogTitle">Weather statuses</string>
     <string name="dismissButtonOkText">Done</string>
+    <string name="tripDataDatabaseAddSuccessTitle">Successfully added a new trip data record!</string>
+    <string name="R.string.tripDataDatabaseAddSuccessSubtitle">The configured trip data has successfully been added to the database!</string>
 </resources>

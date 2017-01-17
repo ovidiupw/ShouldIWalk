@@ -67,15 +67,15 @@
         android:layout_below="@id/lineSeparator1"
         android:layout_marginTop="20dp"
         android:max="10"
-        android:progress="0"
-        android:progressTint="@color/colorPrimaryDark"
+        android:progress="3"
+        android:progressTint="@color/colorPrimary"
         android:scaleY="8" />
 
     <Button
         android:id="@+id/firstPredictionProgressBarAddTripDataButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/firstPredictionProgressBar"
+        android:layout_below="@id/firstPredictionProgressBar"
         android:layout_marginTop="20dp"
         android:text="@string/firstPredictionAddEventButtonText" />
 

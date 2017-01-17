@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface LocationDBHelper {
 
-    void insert(Location location) throws InvalidDataException, DatabaseCommFailure;
+    int insert(Location location) throws InvalidDataException, DatabaseCommFailure;
 
     void update(Location location) throws InvalidDataException, DatabaseCommFailure;
 

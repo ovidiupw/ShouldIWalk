@@ -30,7 +30,7 @@ public class LocationSqliteHelper implements LocationDBHelper {
     }
 
     @Override
-    public void insert(Location location) {
+    public int insert(Location location) {
         DataValidator.validateLocation(location);
         final String INSERT_QUERY_NAME = SqlQueryNames.CreateLocation.getQueryName();
 
@@ -46,6 +46,17 @@ public class LocationSqliteHelper implements LocationDBHelper {
         } catch (Throwable t) {
             throw new DatabaseCommFailure(t);
         }
+
+        int lastInsertedRowId = -1;
+        try (Cursor cursor = database.rawQuery("SELECT ROWID from Locations order by ROWID DESC limit 1", null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                lastInsertedRowId = (int) cursor.getLong(0);
+            }
+        } catch (Throwable t) {
+            throw new DatabaseCommFailure(t);
+        }
+
+        return lastInsertedRowId;
     }
 
     @Override

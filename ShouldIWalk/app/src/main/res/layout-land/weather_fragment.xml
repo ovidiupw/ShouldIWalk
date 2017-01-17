@@ -22,8 +22,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="20dp">
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -31,7 +30,8 @@
                         android:orientation="vertical"
                         android:background="@drawable/card_shape"
                         style="@style/StandardPadding"
-                        android:layout_marginBottom="20dp">
+                        android:layout_marginBottom="10dp"
+                        android:paddingBottom="10dp">
 
                         <TextView
                             style="@style/CardTitle"
@@ -41,11 +41,19 @@
                             android:layout_marginTop="10dp"
                             android:text="@string/temperatureSeekbarTitle"/>
 
+                        <ImageView
+                            android:id="@+id/lineSeparator1"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@color/horizontalSeparatorColor"
+                            android:contentDescription="@string/lineSeparatorContentDescription"/>
+
                         <TextView
                             style="@style/CardSubtitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="20dp"
+                            android:layout_marginBottom="10dp"
                             android:text="@string/temperatureSeekbarSubtitle"/>
 
                         <SeekBar
@@ -53,13 +61,13 @@
                             style="@style/Widget.AppCompat.SeekBar"
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
-                            android:layout_marginBottom="20dp"
-                            android:background="@drawable/weather_seekbar_background"
+                            android:layout_marginBottom="10dp"
+                            android:progressDrawable="@drawable/grey_seekbar_drawable"
+                            android:thumb="@drawable/grey_seekbar_thumb"
+                            android:minHeight="10dp"
+                            android:maxHeight="10dp"
                             android:max="140"
-                            android:progress="1"
-                            android:progressTint="@color/appBackground"
-                            android:progressTintMode="src_in"
-                            android:thumbTint="@color/listItemTitleColorDark"/>
+                            android:progress="30"/>
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -91,7 +99,8 @@
                         android:background="@drawable/card_shape"
                         style="@style/StandardPadding"
                         android:paddingTop="15dp"
-                        android:paddingBottom="20dp">
+                        android:paddingBottom="10dp"
+                        android:layout_marginBottom="10dp">
 
                         <TextView
                             style="@style/CardTitle"
@@ -99,6 +108,14 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
                             android:text="@string/weatherStatusListTitle"/>
+
+                        <ImageView
+                            android:id="@+id/lineSeparator2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@color/horizontalSeparatorColor"
+                            android:contentDescription="@string/lineSeparatorContentDescription"/>
 
                         <TextView
                             style="@style/CardSubtitle"

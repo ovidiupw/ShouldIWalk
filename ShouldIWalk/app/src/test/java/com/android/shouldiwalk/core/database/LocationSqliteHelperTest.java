@@ -15,6 +15,7 @@ import java.util.List;
 import helpers.EmptyActivity;
 
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -62,12 +63,17 @@ public class LocationSqliteHelperTest {
         Location location1 = new Location(1, 12, 10.4);
         Location location2 = new Location(2, 8.3, 2);
         Location location3 = new Location(3, 5, 7.23337);
-        Location location4 = new Location(3, 5, -7.23337);
+        Location location4 = new Location(4, 5, -7.23337);
 
-        locationSqliteHelper.insert(location1);
-        locationSqliteHelper.insert(location2);
-        locationSqliteHelper.insert(location3);
-        locationSqliteHelper.insert(location4);
+        int location1ID = locationSqliteHelper.insert(location1);
+        int location2ID = locationSqliteHelper.insert(location2);
+        int location3ID = locationSqliteHelper.insert(location3);
+        int location4ID = locationSqliteHelper.insert(location4);
+
+        assertThat(location1ID, is(1));
+        assertThat(location2ID, is(2));
+        assertThat(location3ID, is(3));
+        assertThat(location4ID, is(4));
 
         List<Location> locations = locationSqliteHelper.loadItems(new QueryData()
                 .addBinaryCondition(

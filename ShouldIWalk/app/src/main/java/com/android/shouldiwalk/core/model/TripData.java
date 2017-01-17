@@ -31,12 +31,12 @@ public class TripData {
     /**
      * Epoch milliseconds that represent the start time of the trip.
      */
-    private int startMillis;
+    private long startMillis;
 
     /**
      * Epoch milliseconds that represent the end time of the trip.
      */
-    private int endMillis;
+    private long endMillis;
 
     /**
      * Weather status identifier used to map certain weather conditions to a numeral value.
@@ -148,19 +148,19 @@ public class TripData {
         this.endLocationId = endLocationId;
     }
 
-    public int getStartMillis() {
+    public long getStartMillis() {
         return startMillis;
     }
 
-    public void setStartMillis(int startMillis) {
+    public void setStartMillis(long startMillis) {
         this.startMillis = startMillis;
     }
 
-    public int getEndMillis() {
+    public long getEndMillis() {
         return endMillis;
     }
 
-    public void setEndMillis(int endMillis) {
+    public void setEndMillis(long endMillis) {
         this.endMillis = endMillis;
     }
 
